@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steady - Spring Gala 2025</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Fraunces:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FDFBF7; --card: #FFFFFF; --text: #1a1a1a; --muted: #6b6b6b; --light: #999;
+      --primary: #2D5A4A; --primary-light: #E8F0ED; --accent: #E07A5F;
+      --warning: #D97706; --warning-light: #FEF3C7; --danger: #DC2626; --danger-light: #FEE2E2;
+      --success: #059669; --success-light: #D1FAE5; --border: #E5E2DC; --border-light: #F0EDE7;
+      --purple: #7C3AED; --purple-light: #EDE9FE; --blue-light: #DBEAFE;
+      --font-display: 'Fraunces', serif; --font-body: 'DM Sans', sans-serif;
+      --radius: 8px; --radius-md: 12px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; }
+    .app { display: flex; min-height: 100vh; }
+
+    .sidebar { width: 250px; background: var(--card); border-right: 1px solid var(--border); padding: 20px 14px; position: fixed; height: 100vh; }
+    .logo { font-family: var(--font-display); font-size: 22px; font-weight: 600; color: var(--primary); padding: 0 10px; margin-bottom: 28px; display: flex; align-items: center; gap: 10px; }
+    .logo-icon { width: 30px; height: 30px; background: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: white; font-size: 14px; }
+    .nav-section { margin-bottom: 20px; }
+    .nav-title { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); padding: 0 10px; margin-bottom: 6px; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; border-radius: var(--radius); font-size: 13px; color: var(--muted); cursor: pointer; }
+    .nav-item:hover { background: var(--bg); color: var(--text); }
+    .nav-item.active { background: var(--primary-light); color: var(--primary); font-weight: 500; }
+    .nav-badge { margin-left: auto; background: var(--accent); color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; }
+
+    .main { flex: 1; margin-left: 250px; }
+    .header { background: var(--card); border-bottom: 1px solid var(--border); padding: 14px 28px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
+    .breadcrumb { font-size: 13px; color: var(--muted); }
+    .breadcrumb .current { color: var(--text); font-weight: 500; }
+
+    .event-header { background: var(--card); border-bottom: 1px solid var(--border); padding: 20px 28px; }
+    .event-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 16px; }
+    .event-title-area h1 { font-family: var(--font-display); font-size: 28px; display: flex; align-items: center; gap: 12px; }
+    .status-badge { padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 500; background: var(--danger-light); color: var(--danger); }
+    .event-meta { display: flex; gap: 20px; margin-top: 6px; font-size: 13px; color: var(--muted); }
+
+    .progress-area { display: flex; align-items: center; gap: 20px; }
+    .progress-ring { position: relative; width: 70px; height: 70px; }
+    .progress-ring svg { transform: rotate(-90deg); }
+    .progress-ring .bg { fill: none; stroke: var(--border-light); stroke-width: 7; }
+    .progress-ring .fill { fill: none; stroke: var(--primary); stroke-width: 7; stroke-linecap: round; stroke-dasharray: 176; stroke-dashoffset: 115; }
+    .progress-ring .text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; font-family: var(--font-display); }
+    .progress-stats { display: flex; gap: 24px; }
+    .stat { text-align: center; }
+    .stat-val { font-size: 20px; font-weight: 600; font-family: var(--font-display); }
+    .stat-val.danger { color: var(--danger); }
+    .stat-val.warning { color: var(--warning); }
+    .stat-val.success { color: var(--success); }
+    .stat-label { font-size: 11px; color: var(--muted); }
+
+    .timeline { margin-top: 16px; }
+    .timeline-bar { position: relative; height: 36px; background: var(--bg); border-radius: 18px; overflow: visible; }
+    .timeline-fill { position: absolute; left: 0; top: 0; height: 100%; width: 15%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); border-radius: 18px; }
+    .timeline-today { position: absolute; left: 15%; top: -3px; bottom: -3px; width: 3px; background: var(--accent); border-radius: 2px; }
+    .timeline-today::after { content: 'Today'; position: absolute; top: -18px; left: 50%; transform: translateX(-50%); font-size: 9px; font-weight: 600; color: var(--accent); }
+    .timeline-end { position: absolute; right: 8px; top: 50%; transform: translateY(-50%); background: var(--card); padding: 3px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; color: var(--primary); border: 1px solid var(--border); }
+    .timeline-labels { display: flex; justify-content: space-between; font-size: 10px; color: var(--light); margin-top: 6px; }
+
+    .content { padding: 24px 28px; display: grid; grid-template-columns: 1fr 360px; gap: 24px; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-md); margin-bottom: 20px; }
+    .card-head { padding: 14px 18px; border-bottom: 1px solid var(--border-light); display: flex; justify-content: space-between; align-items: center; }
+    .card-title { font-size: 13px; font-weight: 600; }
+    .card-link { font-size: 12px; color: var(--primary); cursor: pointer; }
+
+    .week-group { padding: 14px 18px; }
+    .week-label { font-size: 12px; font-weight: 600; color: var(--muted); margin-bottom: 10px; display: flex; justify-content: space-between; }
+    .week-label.danger { color: var(--danger); }
+    .milestone { display: flex; gap: 10px; padding: 10px 12px; background: var(--bg); border-radius: var(--radius); margin-bottom: 6px; cursor: pointer; }
+    .milestone:hover { background: var(--primary-light); }
+    .milestone.overdue { background: var(--danger-light); }
+    .check { width: 18px; height: 18px; border: 2px solid var(--border); border-radius: 50%; flex-shrink: 0; margin-top: 2px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 10px; color: transparent; }
+    .check:hover { border-color: var(--primary); }
+    .check.done { background: var(--success); border-color: var(--success); color: white; }
+    .ms-info { flex: 1; }
+    .ms-name { font-size: 13px; font-weight: 500; }
+    .ms-meta { font-size: 11px; color: var(--muted); display: flex; gap: 10px; margin-top: 2px; }
+    .ms-meta .overdue { color: var(--danger); font-weight: 500; }
+    .ms-meta .soon { color: var(--warning); font-weight: 500; }
+    .avatar-xs { width: 16px; height: 16px; border-radius: 50%; background: var(--primary-light); color: var(--primary); font-size: 7px; display: inline-flex; align-items: center; justify-content: center; font-weight: 600; }
+
+    .comms-tabs { display: flex; border-bottom: 1px solid var(--border-light); }
+    .comms-tab { padding: 10px 14px; font-size: 12px; font-weight: 500; color: var(--muted); cursor: pointer; border-bottom: 2px solid transparent; }
+    .comms-tab:hover { color: var(--text); }
+    .comms-tab.active { color: var(--primary); border-color: var(--primary); }
+    .comms-tab .cnt { background: var(--bg); padding: 1px 5px; border-radius: 8px; font-size: 10px; margin-left: 4px; }
+    
+    .msg-list { max-height: 380px; overflow-y: auto; }
+    .msg { display: flex; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--border-light); cursor: pointer; }
+    .msg:hover { background: var(--bg); }
+    .msg.unread { background: var(--blue-light); }
+    .msg-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; }
+    .msg-avatar.vendor { background: var(--purple-light); color: var(--purple); }
+    .msg-avatar.system { background: var(--bg); color: var(--muted); font-size: 14px; }
+    .msg-body { flex: 1; min-width: 0; }
+    .msg-head { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 2px; }
+    .msg-from { font-weight: 600; }
+    .msg-time { color: var(--light); }
+    .msg-subj { font-size: 12px; font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .msg-preview { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .msg-tags { margin-top: 6px; display: flex; gap: 4px; }
+    .tag { padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 500; }
+    .tag.team { background: var(--primary-light); color: var(--primary); }
+    .tag.vendor { background: var(--purple-light); color: var(--purple); }
+    .tag.auto { background: var(--bg); color: var(--muted); }
+
+    .quick-bar { padding: 12px 16px; border-top: 1px solid var(--border-light); background: var(--bg); }
+    .quick-label { font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .quick-btns { display: flex; flex-wrap: wrap; gap: 6px; }
+    .quick-btn { padding: 5px 10px; font-size: 11px; border: 1px solid var(--border); background: var(--card); border-radius: 100px; cursor: pointer; }
+    .quick-btn:hover { border-color: var(--primary); background: var(--primary-light); }
+
+    .compose { padding: 14px 16px; border-top: 1px solid var(--border-light); background: var(--bg); display: none; }
+    .compose.open { display: block; }
+    .compose-head { display: flex; justify-content: space-between; margin-bottom: 10px; }
+    .compose-title { font-size: 12px; font-weight: 600; }
+    .recipients { display: flex; flex-wrap: wrap; gap: 4px; padding: 8px 10px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; min-height: 36px; align-items: center; }
+    .recip { padding: 3px 8px; background: var(--primary-light); color: var(--primary); border-radius: 100px; font-size: 11px; font-weight: 500; display: flex; align-items: center; gap: 4px; }
+    .recip .x { cursor: pointer; opacity: 0.6; }
+    .add-recip { font-size: 12px; color: var(--muted); cursor: pointer; }
+    .compose textarea { width: 100%; padding: 10px; font-size: 13px; font-family: var(--font-body); border: 1px solid var(--border); border-radius: var(--radius); resize: none; height: 70px; margin-bottom: 10px; }
+    .compose textarea:focus { outline: none; border-color: var(--primary); }
+    .compose-actions { display: flex; justify-content: space-between; }
+
+    .team-section { font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--muted); padding: 10px 14px 6px; }
+    .team-row { display: flex; align-items: center; gap: 10px; padding: 8px 14px; cursor: pointer; }
+    .team-row:hover { background: var(--bg); }
+    .avatar-sm { width: 32px; height: 32px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 600; }
+    .avatar-sm.vendor { background: var(--purple-light); color: var(--purple); }
+    .team-info { flex: 1; }
+    .team-name { font-size: 13px; font-weight: 500; }
+    .team-role { font-size: 11px; color: var(--muted); }
+    .team-tasks { font-size: 11px; color: var(--muted); }
+    .team-tasks b { color: var(--text); }
+
+    .activity-item { display: flex; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border-light); font-size: 12px; }
+    .activity-text { flex: 1; color: var(--muted); }
+    .activity-text b { color: var(--text); font-weight: 500; }
+    .activity-text .hl { color: var(--primary); }
+    .activity-time { font-size: 11px; color: var(--light); }
+
+    .btn { padding: 8px 16px; font-size: 13px; font-weight: 500; border-radius: var(--radius); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; border: none; font-family: var(--font-body); }
+    .btn-sm { padding: 5px 10px; font-size: 12px; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: #234539; }
+    .btn-secondary { background: var(--card); border: 1px solid var(--border); color: var(--text); }
+    .btn-ghost { background: transparent; color: var(--primary); }
+    .btn-ghost:hover { background: var(--primary-light); }
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo"><div class="logo-icon">📊</div> Steady</div>
+    <nav>
+      <div class="nav-section">
+        <a class="nav-item">📋 Dashboard</a>
+        <a class="nav-item">📅 Events <span class="nav-badge">3</span></a>
+        <a class="nav-item">👥 Team</a>
+      </div>
+      <div class="nav-section">
+        <div class="nav-title">This Event</div>
+        <a class="nav-item active">📋 Overview</a>
+        <a class="nav-item">✅ Milestones</a>
+        <a class="nav-item">👥 Team</a>
+        <a class="nav-item">💬 Communications <span class="nav-badge">3</span></a>
+        <a class="nav-item">📎 Files</a>
+      </div>
+    </nav>
+  </aside>
+
+  <main class="main">
+    <header class="header">
+      <div class="breadcrumb">Events › <span class="current">Spring Gala 2025</span></div>
+      <button class="btn btn-secondary btn-sm">Edit Event</button>
+    </header>
+
+    <div class="event-header">
+      <div class="event-top">
+        <div class="event-title-area">
+          <h1>🎭 Spring Gala 2025 <span class="status-badge">2 at risk</span></h1>
+          <div class="event-meta">
+            <span>📅 Sat, April 12, 2025 at 6 PM</span>
+            <span>📍 Grand Ballroom, Riverside Hotel</span>
+            <span>⏱️ 12 weeks away</span>
+          </div>
+        </div>
+        <div class="progress-area">
+          <div class="progress-ring">
+            <svg width="70" height="70" viewBox="0 0 70 70"><circle class="bg" cx="35" cy="35" r="28"/><circle class="fill" cx="35" cy="35" r="28"/></svg>
+            <div class="text">35%</div>
+          </div>
+          <div class="progress-stats">
+            <div class="stat"><div class="stat-val danger">2</div><div class="stat-label">Overdue</div></div>
+            <div class="stat"><div class="stat-val warning">3</div><div class="stat-label">Due Soon</div></div>
+            <div class="stat"><div class="stat-val success">6</div><div class="stat-label">Complete</div></div>
+            <div class="stat"><div class="stat-val">18</div><div class="stat-label">Total</div></div>
+          </div>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="timeline-bar"><div class="timeline-fill"></div><div class="timeline-today"></div><div class="timeline-end">Apr 12</div></div>
+        <div class="timeline-labels"><span>Jan 20</span><span>Feb</span><span>Mar</span><span>Apr 12</span></div>
+      </div>
+    </div>
+
+    <div class="content">
+      <div class="main-col">
+        <div class="card">
+          <div class="card-head"><span class="card-title">📋 Milestones</span><span class="card-link">View all 18 →</span></div>
+          <div class="week-group">
+            <div class="week-label danger">⚠️ Overdue <span>2 items</span></div>
+            <div class="milestone overdue" onclick="openMs('Confirm venue booking')"><div class="check" onclick="event.stopPropagation(); toggleCheck(this)">✓</div><div class="ms-info"><div class="ms-name">Confirm venue booking</div><div class="ms-meta"><span class="avatar-xs">SJ</span> Sarah J. <span class="overdue">2 days overdue</span></div></div></div>
+            <div class="milestone overdue" onclick="openMs('Send save-the-dates')"><div class="check" onclick="event.stopPropagation(); toggleCheck(this)">✓</div><div class="ms-info"><div class="ms-name">Send save-the-dates</div><div class="ms-meta"><span class="avatar-xs">SJ</span> Sarah J. <span class="overdue">1 day overdue</span></div></div></div>
+          </div>
+          <div class="week-group">
+            <div class="week-label">This Week (Jan 20-26) <span>3 items</span></div>
+            <div class="milestone" onclick="openMs('Book catering')"><div class="check" onclick="event.stopPropagation(); toggleCheck(this)">✓</div><div class="ms-info"><div class="ms-name">Book catering</div><div class="ms-meta"><span class="avatar-xs">LP</span> Lisa P. <span class="soon">Due tomorrow</span></div></div></div>
+            <div class="milestone" onclick="openMs('Design invitations')"><div class="check" onclick="event.stopPropagation(); toggleCheck(this)">✓</div><div class="ms-info"><div class="ms-name">Design invitations</div><div class="ms-meta"><span style="color:var(--warning)">⚠️ Unassigned</span> <span class="soon">Due in 3 days</span></div></div></div>
+            <div class="milestone" onclick="openMs('Send formal invitations')"><div class="check" onclick="event.stopPropagation(); toggleCheck(this)">✓</div><div class="ms-info"><div class="ms-name">Send formal invitations</div><div class="ms-meta"><span class="avatar-xs">SJ</span> Sarah J. <span>Due Jan 25</span></div></div></div>
+          </div>
+          <div class="week-group">
+            <div class="week-label">Next Week (Jan 27 - Feb 2) <span>2 items</span></div>
+            <div class="milestone" onclick="openMs('Book entertainment')"><div class="check" onclick="event.stopPropagation(); toggleCheck(this)">✓</div><div class="ms-info"><div class="ms-name">Book entertainment/speaker</div><div class="ms-meta"><span style="color:var(--warning)">⚠️ Unassigned</span> <span>Due Feb 1</span></div></div></div>
+            <div class="milestone" onclick="openMs('Review speaker contract')"><div class="check" onclick="event.stopPropagation(); toggleCheck(this)">✓</div><div class="ms-info"><div class="ms-name">Review speaker contract</div><div class="ms-meta"><span class="avatar-xs">SJ</span> Sarah J. <span>Due Feb 3</span></div></div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><span class="card-title">💬 Communications</span><button class="btn btn-primary btn-sm" onclick="openCompose()">+ New Message</button></div>
+          <div class="comms-tabs">
+            <div class="comms-tab active">All <span class="cnt">12</span></div>
+            <div class="comms-tab">Team <span class="cnt">8</span></div>
+            <div class="comms-tab">Vendors <span class="cnt">4</span></div>
+            <div class="comms-tab">Automated <span class="cnt">6</span></div>
+          </div>
+          <div class="msg-list">
+            <div class="msg unread" onclick="openMsg('Re: Spring Gala - Venue Confirmation')"><div class="msg-avatar vendor">RH</div><div class="msg-body"><div class="msg-head"><span class="msg-from">Riverside Hotel</span><span class="msg-time">2 hours ago</span></div><div class="msg-subj">Re: Spring Gala - Venue Confirmation</div><div class="msg-preview">Hi Sarah, I wanted to follow up on the deposit. We'll need to receive it by Friday...</div><div class="msg-tags"><span class="tag vendor">Vendor</span></div></div></div>
+            <div class="msg" onclick="openMsg('Catering options narrowed down')"><div class="msg-avatar">LP</div><div class="msg-body"><div class="msg-head"><span class="msg-from">Lisa Park</span><span class="msg-time">Yesterday</span></div><div class="msg-subj">Catering options narrowed down</div><div class="msg-preview">I've gotten quotes from 3 caterers. Taste of Riverside is the best value at $85/head...</div><div class="msg-tags"><span class="tag team">Committee</span></div></div></div>
+            <div class="msg" onclick="openMsg('Reminder sent')"><div class="msg-avatar system">🔔</div><div class="msg-body"><div class="msg-head"><span class="msg-from">Steady</span><span class="msg-time">Yesterday</span></div><div class="msg-subj">Reminder sent: Confirm venue booking</div><div class="msg-preview">Automatic reminder sent to Sarah Johnson for overdue milestone</div><div class="msg-tags"><span class="tag auto">Automated</span></div></div></div>
+            <div class="msg" onclick="openMsg('Quote for Spring Gala')"><div class="msg-avatar vendor">TC</div><div class="msg-body"><div class="msg-head"><span class="msg-from">Taste of Riverside Catering</span><span class="msg-time">2 days ago</span></div><div class="msg-subj">Quote for Spring Gala - 150 guests</div><div class="msg-preview">Please find attached our quote for your Spring Gala event...</div><div class="msg-tags"><span class="tag vendor">Vendor</span></div></div></div>
+            <div class="msg" onclick="openMsg('Weekly Status Update')"><div class="msg-avatar">SJ</div><div class="msg-body"><div class="msg-head"><span class="msg-from">Sarah Johnson</span><span class="msg-time">3 days ago</span></div><div class="msg-subj">Weekly Status Update - Jan 17</div><div class="msg-preview">Hi team, here's our weekly update: We're making progress on invitations...</div><div class="msg-tags"><span class="tag team">Committee</span></div></div></div>
+          </div>
+          <div class="quick-bar">
+            <div class="quick-label">Quick Updates</div>
+            <div class="quick-btns">
+              <button class="quick-btn" onclick="quickUpdate('weekly')">📊 Weekly Status</button>
+              <button class="quick-btn" onclick="quickUpdate('reminder')">⏰ Send Reminder</button>
+              <button class="quick-btn" onclick="quickUpdate('thankyou')">🙏 Thank You Note</button>
+              <button class="quick-btn" onclick="quickUpdate('meeting')">📅 Schedule Meeting</button>
+            </div>
+          </div>
+          <div class="compose" id="compose">
+            <div class="compose-head"><span class="compose-title">New Message</span><span style="font-size:11px; color:var(--muted)">via Gmail</span></div>
+            <div class="recipients">
+              <div class="recip">Sarah Johnson <span class="x" onclick="this.parentElement.remove()">×</span></div>
+              <div class="recip">Lisa Park <span class="x" onclick="this.parentElement.remove()">×</span></div>
+              <div class="recip">Michael Rodriguez <span class="x" onclick="this.parentElement.remove()">×</span></div>
+              <span class="add-recip" onclick="prompt('Add recipient:')">+ Add</span>
+            </div>
+            <textarea id="msg-body" placeholder="Type your message..."></textarea>
+            <div class="compose-actions">
+              <div><button class="btn btn-sm" style="background:transparent;color:var(--muted);">📎</button><button class="btn btn-sm" style="background:transparent;color:var(--muted);">📄</button><button class="btn btn-sm" style="background:transparent;color:var(--muted);">⏰</button></div>
+              <div><button class="btn btn-secondary btn-sm" onclick="closeCompose()">Cancel</button> <button class="btn btn-primary btn-sm" onclick="sendMsg()">✉️ Send via Gmail</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="side-col">
+        <div class="card">
+          <div class="card-head"><span class="card-title">👥 Event Team</span><span class="card-link">Manage →</span></div>
+          <div class="team-section">Gala Committee (3)</div>
+          <div class="team-row"><div class="avatar-sm">SJ</div><div class="team-info"><div class="team-name">Sarah Johnson</div><div class="team-role">Executive Director</div></div><div class="team-tasks"><b>5</b> tasks</div></div>
+          <div class="team-row"><div class="avatar-sm">LP</div><div class="team-info"><div class="team-name">Lisa Park</div><div class="team-role">Volunteer Coordinator</div></div><div class="team-tasks"><b>4</b> tasks</div></div>
+          <div class="team-row"><div class="avatar-sm">MR</div><div class="team-info"><div class="team-name">Michael Rodriguez</div><div class="team-role">Board Chair</div></div><div class="team-tasks"><b>3</b> tasks</div></div>
+          <div class="team-section">Vendors (2)</div>
+          <div class="team-row"><div class="avatar-sm vendor">RH</div><div class="team-info"><div class="team-name">Riverside Hotel</div><div class="team-role">Venue</div></div></div>
+          <div class="team-row"><div class="avatar-sm vendor">TC</div><div class="team-info"><div class="team-name">Taste of Riverside</div><div class="team-role">Catering</div></div></div>
+          <div style="padding:12px 14px;"><button class="btn btn-ghost btn-sm" style="width:100%; justify-content:center;">+ Add Contact</button></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><span class="card-title">📈 Recent Activity</span></div>
+          <div class="activity-item"><div class="avatar-sm" style="width:28px;height:28px;font-size:9px;">LP</div><div class="activity-text"><b>Lisa Park</b> completed <span class="hl">Design invitations</span></div><div class="activity-time">2h ago</div></div>
+          <div class="activity-item"><div class="avatar-sm" style="width:28px;height:28px;font-size:12px;background:var(--bg);color:var(--muted);">🔔</div><div class="activity-text">Reminder sent to <b>Sarah Johnson</b></div><div class="activity-time">Yesterday</div></div>
+          <div class="activity-item"><div class="avatar-sm" style="width:28px;height:28px;font-size:9px;">MR</div><div class="activity-text"><b>Michael Rodriguez</b> completed <span class="hl">Draft keynote</span></div><div class="activity-time">2 days ago</div></div>
+          <div class="activity-item"><div class="avatar-sm" style="width:28px;height:28px;font-size:9px;">SJ</div><div class="activity-text"><b>Sarah</b> sent weekly status update</div><div class="activity-time">3 days ago</div></div>
+        </div>
+
+        <div class="card">
+          <div class="card-head"><span class="card-title">📊 Event Details</span></div>
+          <div style="padding:14px 18px; font-size:13px;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span style="color:var(--muted)">Event Type</span><b>Annual Gala</b></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span style="color:var(--muted)">Expected Guests</span><b>150</b></div>
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;"><span style="color:var(--muted)">Messages Sent</span><b>24</b></div>
+            <div style="display:flex; justify-content:space-between;"><span style="color:var(--muted)">Last Activity</span><b>2 hours ago</b></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script>
+function toggleCheck(el) { el.classList.toggle('done'); el.closest('.milestone').style.opacity = el.classList.contains('done') ? '0.5' : '1'; toast(el.classList.contains('done') ? 'Milestone completed!' : 'Milestone reopened'); }
+function openMs(name) { alert('Open milestone: ' + name); }
+function openMsg(subj) { event.currentTarget.classList.remove('unread'); alert('Open thread: ' + subj); }
+function openCompose() { document.getElementById('compose').classList.add('open'); document.getElementById('compose').scrollIntoView({behavior:'smooth'}); }
+function closeCompose() { document.getElementById('compose').classList.remove('open'); }
+function sendMsg() { toast('Message sent via Gmail!'); closeCompose(); }
+function quickUpdate(type) {
+  const t = { weekly: 'Hi team, here\'s this week\'s status update for Spring Gala 2025:\n\n✅ Completed:\n⏳ In Progress:\n🚨 Needs Attention:', reminder: 'Hi [Name],\n\nFriendly reminder that [Task] is due on [Date].', thankyou: 'Hi [Name],\n\nThank you for [Action]! We appreciate your help.', meeting: 'Hi team,\n\nI\'d like to schedule a check-in. Are you available [Date]?' };
+  document.getElementById('msg-body').value = t[type]; openCompose(); toast('Template loaded');
+}
+function toast(msg) { const t = document.createElement('div'); t.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#1a1a1a;color:white;padding:10px 18px;border-radius:8px;font-size:13px;z-index:1000'; t.textContent = msg; document.body.appendChild(t); setTimeout(() => t.remove(), 2000); }
+</script>
+</body>
+</html>

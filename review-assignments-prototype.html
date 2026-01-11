@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steady - Review Assignments</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #FDFBF7;
+      --color-bg-card: #FFFFFF;
+      --color-text: #1a1a1a;
+      --color-text-muted: #6b6b6b;
+      --color-text-light: #999;
+      --color-primary: #2D5A4A;
+      --color-primary-light: #E8F0ED;
+      --color-primary-hover: #234539;
+      --color-accent: #E07A5F;
+      --color-accent-light: #FDF0ED;
+      --color-warning: #D97706;
+      --color-warning-light: #FEF3C7;
+      --color-danger: #DC2626;
+      --color-danger-light: #FEE2E2;
+      --color-border: #E5E2DC;
+      --color-border-light: #F0EDE7;
+      --color-success: #059669;
+      --color-success-light: #D1FAE5;
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-body: 'DM Sans', -apple-system, sans-serif;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-body); background: var(--color-bg); color: var(--color-text); min-height: 100vh; line-height: 1.6; }
+    .app { display: flex; min-height: 100vh; }
+
+    /* Sidebar */
+    .sidebar { width: 260px; background: var(--color-bg-card); border-right: 1px solid var(--color-border); padding: 24px 16px; position: fixed; height: 100vh; }
+    .logo { font-family: var(--font-display); font-size: 24px; font-weight: 600; color: var(--color-primary); margin-bottom: 32px; padding: 0 12px; display: flex; align-items: center; gap: 10px; }
+    .logo-icon { width: 32px; height: 32px; background: var(--color-primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .logo-icon svg { width: 18px; height: 18px; color: white; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: var(--radius-sm); font-size: 14px; color: var(--color-text-muted); cursor: pointer; transition: all 0.15s; text-decoration: none; }
+    .nav-item:hover { background: var(--color-bg); color: var(--color-text); }
+    .nav-item.active { background: var(--color-primary-light); color: var(--color-primary); font-weight: 500; }
+    .nav-item svg { width: 18px; height: 18px; }
+
+    /* Main */
+    .main { flex: 1; margin-left: 260px; }
+    .top-header { background: var(--color-bg-card); border-bottom: 1px solid var(--color-border); padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--color-text-muted); }
+    .breadcrumb a { color: var(--color-text-muted); text-decoration: none; }
+    .breadcrumb a:hover { color: var(--color-primary); }
+    .breadcrumb .current { color: var(--color-text); font-weight: 500; }
+    .header-actions { display: flex; gap: 12px; }
+    .content { padding: 32px; max-width: 1200px; }
+
+    /* Page Header */
+    .page-header { margin-bottom: 24px; display: flex; align-items: flex-start; justify-content: space-between; }
+    .page-header h1 { font-family: var(--font-display); font-size: 28px; font-weight: 600; margin-bottom: 8px; }
+    .page-header .subtitle { font-size: 15px; color: var(--color-text-muted); }
+
+    /* View Toggle */
+    .view-toggle { display: flex; background: var(--color-bg); border-radius: var(--radius-sm); padding: 4px; }
+    .view-toggle-btn { padding: 8px 16px; font-size: 13px; font-weight: 500; border: none; background: transparent; color: var(--color-text-muted); border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+    .view-toggle-btn:hover { color: var(--color-text); }
+    .view-toggle-btn.active { background: var(--color-bg-card); color: var(--color-text); box-shadow: var(--shadow-sm); }
+
+    /* Stats */
+    .summary-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+    .stat-card { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 20px; }
+    .stat-card-value { font-size: 32px; font-weight: 600; font-family: var(--font-display); color: var(--color-primary); line-height: 1; }
+    .stat-card-label { font-size: 13px; color: var(--color-text-muted); margin-top: 4px; }
+
+    /* Filter */
+    .event-filter { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; }
+    .filter-label { font-size: 14px; color: var(--color-text-muted); }
+    .filter-chip { padding: 6px 14px; border: 1px solid var(--color-border); border-radius: 100px; font-size: 13px; cursor: pointer; transition: all 0.15s; background: var(--color-bg-card); }
+    .filter-chip:hover { border-color: var(--color-primary); }
+    .filter-chip.active { background: var(--color-primary); border-color: var(--color-primary); color: white; }
+
+    /* Unassigned */
+    .unassigned-section { background: var(--color-warning-light); border: 2px dashed var(--color-warning); border-radius: var(--radius-md); padding: 24px; margin-bottom: 24px; }
+    .unassigned-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .unassigned-icon { width: 40px; height: 40px; background: var(--color-warning); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .unassigned-title { font-size: 16px; font-weight: 600; }
+    .unassigned-subtitle { font-size: 13px; color: var(--color-text-muted); }
+    .unassigned-list { display: flex; flex-direction: column; gap: 8px; }
+    .unassigned-item { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; background: var(--color-bg-card); border-radius: var(--radius-sm); gap: 16px; }
+    .unassigned-item-name { font-size: 14px; font-weight: 500; }
+    .unassigned-item-event { font-size: 12px; color: var(--color-text-muted); }
+    .unassigned-item-due { font-size: 13px; color: var(--color-text-muted); }
+
+    /* Team Cards */
+    .team-assignments { display: flex; flex-direction: column; gap: 24px; }
+    .team-member-card { background: var(--color-bg-card); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+    .team-member-header { display: flex; align-items: center; gap: 16px; padding: 20px 24px; background: var(--color-bg); border-bottom: 1px solid var(--color-border); }
+    .avatar { width: 48px; height: 48px; border-radius: 50%; background: var(--color-primary-light); color: var(--color-primary); display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 600; flex-shrink: 0; }
+    .team-member-info { flex: 1; }
+    .team-member-name { font-size: 18px; font-weight: 600; margin-bottom: 2px; }
+    .team-member-role { font-size: 14px; color: var(--color-text-muted); }
+    .team-member-stats { display: flex; gap: 24px; }
+    .mini-stat { text-align: center; }
+    .mini-stat-value { font-size: 20px; font-weight: 600; font-family: var(--font-display); }
+    .mini-stat-value.danger { color: var(--color-danger); }
+    .mini-stat-value.warning { color: var(--color-warning); }
+    .mini-stat-label { font-size: 11px; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .workload-indicator { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+    .workload-bar { width: 100px; height: 8px; background: var(--color-border-light); border-radius: 4px; overflow: hidden; }
+    .workload-fill { height: 100%; border-radius: 4px; }
+    .workload-fill.low { background: var(--color-success); }
+    .workload-fill.medium { background: var(--color-warning); }
+    .workload-fill.high { background: var(--color-danger); }
+    .workload-label { font-size: 11px; color: var(--color-text-muted); }
+
+    /* Milestones */
+    .milestone-list { padding: 0; }
+    .milestone-row { display: grid; grid-template-columns: 1fr 140px 120px 100px; gap: 16px; align-items: center; padding: 16px 24px; border-bottom: 1px solid var(--color-border-light); transition: background 0.15s; }
+    .milestone-row:last-child { border-bottom: none; }
+    .milestone-row:hover { background: var(--color-bg); }
+    .milestone-info { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .milestone-status-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .milestone-status-dot.pending { background: var(--color-border); }
+    .milestone-status-dot.in-progress { background: var(--color-primary); }
+    .milestone-status-dot.overdue { background: var(--color-danger); }
+    .milestone-status-dot.complete { background: var(--color-success); }
+    .milestone-name { font-size: 14px; font-weight: 500; }
+    .milestone-event { font-size: 12px; color: var(--color-text-muted); }
+    .milestone-date { font-size: 14px; color: var(--color-text-muted); }
+    .milestone-date.overdue { color: var(--color-danger); font-weight: 500; }
+    .milestone-date.soon { color: var(--color-warning); font-weight: 500; }
+    .status-badge { padding: 4px 10px; border-radius: 100px; font-size: 12px; font-weight: 500; text-align: center; }
+    .status-badge.overdue { background: var(--color-danger-light); color: var(--color-danger); }
+    .status-badge.due-soon { background: var(--color-warning-light); color: var(--color-warning); }
+    .status-badge.on-track { background: var(--color-success-light); color: var(--color-success); }
+    .milestone-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+    /* Buttons */
+    .btn { padding: 10px 20px; font-size: 14px; font-weight: 500; font-family: var(--font-body); border-radius: var(--radius-sm); cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; border: none; }
+    .btn-primary { background: var(--color-primary); color: white; }
+    .btn-primary:hover { background: var(--color-primary-hover); }
+    .btn-secondary { background: transparent; border: 1px solid var(--color-border); color: var(--color-text); }
+    .btn-secondary:hover { background: var(--color-bg); border-color: var(--color-primary); }
+    .btn svg { width: 16px; height: 16px; }
+    .action-btn { padding: 6px 12px; font-size: 12px; font-weight: 500; border-radius: var(--radius-sm); cursor: pointer; transition: all 0.15s; border: 1px solid var(--color-border); background: var(--color-bg-card); color: var(--color-text-muted); }
+    .action-btn:hover { background: var(--color-bg); border-color: var(--color-primary); color: var(--color-primary); }
+
+    /* Footer */
+    .page-footer { display: flex; align-items: center; justify-content: space-between; padding: 24px 0; border-top: 1px solid var(--color-border); margin-top: 32px; }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+        </div>
+        Steady
+      </div>
+      <nav>
+        <a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Dashboard</a>
+        <a class="nav-item active" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Events</a>
+        <a class="nav-item" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>Team</a>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="top-header">
+        <div class="breadcrumb">
+          <a href="#">Events</a>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          <a href="#">Spring Gala 2025</a>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          <span class="current">Team Assignments</span>
+        </div>
+        <div class="header-actions">
+          <button class="btn btn-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Export</button>
+          <button class="btn btn-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>Add Milestone</button>
+        </div>
+      </header>
+
+      <div class="content">
+        <div class="page-header">
+          <div>
+            <h1>🎭 Spring Gala 2025 — Team Assignments</h1>
+            <p class="subtitle">Review and balance workload across your team. Event date: April 12, 2025</p>
+          </div>
+          <div class="view-toggle">
+            <button class="view-toggle-btn active">By Person</button>
+            <button class="view-toggle-btn">Timeline</button>
+          </div>
+        </div>
+
+        <div class="summary-stats">
+          <div class="stat-card"><div class="stat-card-value">18</div><div class="stat-card-label">Total Milestones</div></div>
+          <div class="stat-card"><div class="stat-card-value" style="color: var(--color-success)">12</div><div class="stat-card-label">Assigned</div></div>
+          <div class="stat-card"><div class="stat-card-value" style="color: var(--color-warning)">6</div><div class="stat-card-label">Unassigned</div></div>
+          <div class="stat-card"><div class="stat-card-value" style="color: var(--color-danger)">2</div><div class="stat-card-label">Overdue</div></div>
+        </div>
+
+        <div class="event-filter">
+          <span class="filter-label">Filter:</span>
+          <div class="filter-chip active">All milestones</div>
+          <div class="filter-chip">Overdue only</div>
+          <div class="filter-chip">Due this week</div>
+          <div class="filter-chip">Unassigned</div>
+        </div>
+
+        <!-- Unassigned Section -->
+        <div class="unassigned-section">
+          <div class="unassigned-header">
+            <div class="unassigned-icon">⚠️</div>
+            <div>
+              <div class="unassigned-title">6 milestones need an owner</div>
+              <div class="unassigned-subtitle">Assign team members to ensure nothing falls through the cracks</div>
+            </div>
+          </div>
+          <div class="unassigned-list">
+            <div class="unassigned-item">
+              <div><div class="unassigned-item-name">Arrange A/V equipment</div><div class="unassigned-item-event">Venue & Logistics</div></div>
+              <div class="unassigned-item-due">Due Feb 15</div>
+              <button class="action-btn">Assign</button>
+            </div>
+            <div class="unassigned-item">
+              <div><div class="unassigned-item-name">Design invitations</div><div class="unassigned-item-event">Invitations & Marketing</div></div>
+              <div class="unassigned-item-due" style="color: var(--color-warning); font-weight: 500;">Due in 3 days</div>
+              <button class="action-btn">Assign</button>
+            </div>
+            <div class="unassigned-item">
+              <div><div class="unassigned-item-name">Book entertainment/speaker</div><div class="unassigned-item-event">Program & Entertainment</div></div>
+              <div class="unassigned-item-due">Due Feb 1</div>
+              <button class="action-btn">Assign</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Team Assignments -->
+        <div class="team-assignments">
+          <!-- Sarah Johnson -->
+          <div class="team-member-card">
+            <div class="team-member-header">
+              <div class="avatar">SJ</div>
+              <div class="team-member-info">
+                <div class="team-member-name">Sarah Johnson</div>
+                <div class="team-member-role">Executive Director</div>
+              </div>
+              <div class="team-member-stats">
+                <div class="mini-stat"><div class="mini-stat-value danger">2</div><div class="mini-stat-label">Overdue</div></div>
+                <div class="mini-stat"><div class="mini-stat-value warning">1</div><div class="mini-stat-label">Due Soon</div></div>
+                <div class="mini-stat"><div class="mini-stat-value">5</div><div class="mini-stat-label">Total</div></div>
+              </div>
+              <div class="workload-indicator">
+                <div class="workload-bar"><div class="workload-fill high" style="width: 85%"></div></div>
+                <div class="workload-label">High workload</div>
+              </div>
+            </div>
+            <div class="milestone-list">
+              <div class="milestone-row">
+                <div class="milestone-info"><div class="milestone-status-dot overdue"></div><div><div class="milestone-name">Confirm venue booking</div><div class="milestone-event">Venue & Logistics</div></div></div>
+                <div class="milestone-date overdue">2 days overdue</div>
+                <div class="status-badge overdue">Overdue</div>
+                <div class="milestone-actions"><button class="action-btn">Reassign</button></div>
+              </div>
+              <div class="milestone-row">
+                <div class="milestone-info"><div class="milestone-status-dot overdue"></div><div><div class="milestone-name">Send save-the-dates</div><div class="milestone-event">Invitations & Marketing</div></div></div>
+                <div class="milestone-date overdue">1 day overdue</div>
+                <div class="status-badge overdue">Overdue</div>
+                <div class="milestone-actions"><button class="action-btn">Reassign</button></div>
+              </div>
+              <div class="milestone-row">
+                <div class="milestone-info"><div class="milestone-status-dot in-progress"></div><div><div class="milestone-name">Send formal invitations</div><div class="milestone-event">Invitations & Marketing</div></div></div>
+                <div class="milestone-date soon">Due in 5 days</div>
+                <div class="status-badge due-soon">Due Soon</div>
+                <div class="milestone-actions"><button class="action-btn">Reassign</button></div>
+              </div>
+              <div class="milestone-row">
+                <div class="milestone-info"><div class="milestone-status-dot pending"></div><div><div class="milestone-name">RSVP deadline management</div><div class="milestone-event">Invitations & Marketing</div></div></div>
+                <div class="milestone-date">Mar 29</div>
+                <div class="status-badge on-track">On Track</div>
+                <div class="milestone-actions"><button class="action-btn">Reassign</button></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Lisa Park -->
+          <div class="team-member-card">
+            <div class="team-member-header">
+              <div class="avatar">LP</div>
+              <div class="team-member-info">
+                <div class="team-member-name">Lisa Park</div>
+                <div class="team-member-role">Volunteer Coordinator</div>
+              </div>
+              <div class="team-member-stats">
+                <div class="mini-stat"><div class="mini-stat-value">0</div><div class="mini-stat-label">Overdue</div></div>
+                <div class="mini-stat"><div class="mini-stat-value warning">1</div><div class="mini-stat-label">Due Soon</div></div>
+                <div class="mini-stat"><div class="mini-stat-value">4</div><div class="mini-stat-label">Total</div></div>
+              </div>
+              <div class="workload-indicator">
+                <div class="workload-bar"><div class="workload-fill medium" style="width: 55%"></div></div>
+                <div class="workload-label">Moderate workload</div>
+              </div>
+            </div>
+            <div class="milestone-list">
+              <div class="milestone-row">
+                <div class="milestone-info"><div class="milestone-status-dot in-progress"></div><div><div class="milestone-name">Book catering</div><div class="milestone-event">Venue & Logistics</div></div></div>
+                <div class="milestone-date soon">Due tomorrow</div>
+                <div class="status-badge due-soon">Due Soon</div>
+                <div class="milestone-actions"><button class="action-btn">Reassign</button></div>
+              </div>
+              <div class="milestone-row">
+                <div class="milestone-info"><div class="milestone-status-dot pending"></div><div><div class="milestone-name">Recruit event volunteers</div><div class="milestone-event">Volunteers</div></div></div>
+                <div class="milestone-date">Mar 15</div>
+                <div class="status-badge on-track">On Track</div>
+                <div class="milestone-actions"><button class="action-btn">Reassign</button></div>
+              </div>
+              <div class="milestone-row">
+                <div class="milestone-info"><div class="milestone-status-dot pending"></div><div><div class="milestone-name">Volunteer training</div><div class="milestone-event">Volunteers</div></div></div>
+                <div class="milestone-date">Apr 5</div>
+                <div class="status-badge on-track">On Track</div>
+                <div class="milestone-actions"><button class="action-btn">Reassign</button></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Michael Rodriguez -->
+          <div class="team-member-card">
+            <div class="team-member-header">
+              <div class="avatar">MR</div>
+              <div class="team-member-info">
+                <div class="team-member-name">Michael Rodriguez</div>
+                <div class="team-member-role">Board Chair</div>
+              </div>
+              <div class="team-member-stats">
+                <div class="mini-stat"><div class="mini-stat-value">0</div><div class="mini-stat-label">Overdue</div></div>
+                <div class="mini-stat"><div class="mini-stat-value">0</div><div class="mini-stat-label">Due Soon</div></div>
+                <div class="mini-stat"><div class="mini-stat-value">3</div><div class="mini-stat-label">Total</div></div>
+              </div>
+              <div class="workload-indicator">
+                <div class="workload-bar"><div class="workload-fill low" style="width: 30%"></div></div>
+                <div class="workload-label">Light workload</div>
+              </div>
+            </div>
+            <div class="milestone-list">
+              <div class="milestone-row">
+                <div class="milestone-info"><div class="milestone-status-dot complete"></div><div><div class="milestone-name">Draft keynote speech</div><div class="milestone-event">Program & Entertainment</div></div></div>
+                <div class="milestone-date" style="color: var(--color-success)">Completed Jan 18</div>
+                <div class="status-badge on-track">Complete</div>
+                <div class="milestone-actions"><button class="action-btn">View</button></div>
+              </div>
+              <div class="milestone-row">
+                <div class="milestone-info"><div class="milestone-status-dot pending"></div><div><div class="milestone-name">Finalize program/run of show</div><div class="milestone-event">Program & Entertainment</div></div></div>
+                <div class="milestone-date">Mar 29</div>
+                <div class="status-badge on-track">On Track</div>
+                <div class="milestone-actions"><button class="action-btn">Reassign</button></div>
+              </div>
+              <div class="milestone-row">
+                <div class="milestone-info"><div class="milestone-status-dot pending"></div><div><div class="milestone-name">Welcome remarks preparation</div><div class="milestone-event">Program & Entertainment</div></div></div>
+                <div class="milestone-date">Apr 10</div>
+                <div class="status-badge on-track">On Track</div>
+                <div class="milestone-actions"><button class="action-btn">Reassign</button></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="page-footer">
+          <button class="btn btn-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back to Event</button>
+          <div style="display: flex; gap: 12px;">
+            <button class="btn btn-secondary" onclick="alert('Auto-balance would redistribute unassigned tasks based on workload')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>Auto-balance Workload</button>
+            <button class="btn btn-primary" onclick="alert('Assignments saved!')">Save Changes</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steady - Prototype Gallery</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FDFBF7;
+      --card: #FFFFFF;
+      --text: #1a1a1a;
+      --muted: #6b6b6b;
+      --primary: #2D5A4A;
+      --primary-light: #E8F0ED;
+      --border: #E5E2DC;
+      --font-display: 'Fraunces', serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 60px 24px;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    
+    .header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--primary);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+    
+    .logo-text {
+      font-family: var(--font-display);
+      font-size: 36px;
+      font-weight: 600;
+      color: var(--primary);
+    }
+    
+    h1 {
+      font-family: var(--font-display);
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    
+    .subtitle {
+      font-size: 18px;
+      color: var(--muted);
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    
+    .prototypes {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    
+    .prototype-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.2s;
+    }
+    
+    .prototype-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
+    
+    .prototype-icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    
+    .prototype-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    
+    .prototype-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    
+    .prototype-tag {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 4px 10px;
+      background: var(--primary-light);
+      color: var(--primary);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 60px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+      color: var(--muted);
+    }
+    
+    .footer a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+    
+    .footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">
+        <div class="logo-icon">📊</div>
+        <span class="logo-text">Steady</span>
+      </div>
+      <h1>Prototype Gallery</h1>
+      <p class="subtitle">Interactive prototypes for an agentic nonprofit event management platform</p>
+    </div>
+    
+    <div class="prototypes">
+      <a href="onboarding-prototype.html" class="prototype-card">
+        <div class="prototype-icon">🚀</div>
+        <div class="prototype-title">Onboarding Flow</div>
+        <div class="prototype-desc">5-step wizard for new organizations: org setup, event types, team members, and launch.</div>
+        <span class="prototype-tag">5 steps</span>
+      </a>
+      
+      <a href="create-event-prototype.html" class="prototype-card">
+        <div class="prototype-icon">📅</div>
+        <div class="prototype-title">Create Event Flow</div>
+        <div class="prototype-desc">Agentic event creation with automatic milestone generation, team assignment, and notification setup.</div>
+        <span class="prototype-tag">5 steps</span>
+      </a>
+      
+      <a href="ed-dashboard-prototype.html" class="prototype-card">
+        <div class="prototype-icon">📋</div>
+        <div class="prototype-title">ED Dashboard</div>
+        <div class="prototype-desc">Executive Director's daily command center: attention items, week view, event health, and team activity.</div>
+        <span class="prototype-tag">Today view</span>
+      </a>
+      
+      <a href="event-detail-prototype.html" class="prototype-card">
+        <div class="prototype-icon">🎭</div>
+        <div class="prototype-title">Event Detail Page</div>
+        <div class="prototype-desc">The "war room" for a single event: timeline, milestones, team, and communications hub.</div>
+        <span class="prototype-tag">Communications</span>
+      </a>
+      
+      <a href="review-assignments-prototype.html" class="prototype-card">
+        <div class="prototype-icon">👥</div>
+        <div class="prototype-title">Review Assignments</div>
+        <div class="prototype-desc">Team workload view showing assignments per person with workload balancing indicators.</div>
+        <span class="prototype-tag">Workload</span>
+      </a>
+      
+      <a href="reminder-settings-prototype.html" class="prototype-card">
+        <div class="prototype-icon">⚙️</div>
+        <div class="prototype-title">Reminder Settings</div>
+        <div class="prototype-desc">Notification configuration with inheritance: org defaults → event type template → specific event.</div>
+        <span class="prototype-tag">Settings</span>
+      </a>
+    </div>
+    
+    <div class="footer">
+      <p>Steady — Event management for small nonprofits</p>
+      <p style="margin-top: 8px;">Built with 💚 using Claude</p>
+    </div>
+  </div>
+</body>
+</html>

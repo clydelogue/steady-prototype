@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steady - Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg: #FDFBF7;
+      --color-bg-card: #FFFFFF;
+      --color-text: #1a1a1a;
+      --color-text-muted: #6b6b6b;
+      --color-text-light: #999;
+      --color-primary: #2D5A4A;
+      --color-primary-light: #E8F0ED;
+      --color-primary-hover: #234539;
+      --color-accent: #E07A5F;
+      --color-accent-light: #FDF0ED;
+      --color-warning: #D97706;
+      --color-warning-light: #FEF3C7;
+      --color-danger: #DC2626;
+      --color-danger-light: #FEE2E2;
+      --color-border: #E5E2DC;
+      --color-border-light: #F0EDE7;
+      --color-success: #059669;
+      --color-success-light: #D1FAE5;
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-body: 'DM Sans', -apple-system, sans-serif;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+      --shadow-lg: 0 8px 30px rgba(0,0,0,0.08);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 20px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-text);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* App Layout */
+    .app {
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 260px;
+      background: var(--color-bg-card);
+      border-right: 1px solid var(--color-border);
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .logo {
+      font-family: var(--font-display);
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--color-primary);
+      margin-bottom: 32px;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--color-primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .logo-icon svg {
+      width: 18px;
+      height: 18px;
+      color: white;
+    }
+
+    .nav-section {
+      margin-bottom: 24px;
+    }
+
+    .nav-section-title {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-text-muted);
+      padding: 0 12px;
+      margin-bottom: 8px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all 0.15s;
+      text-decoration: none;
+    }
+
+    .nav-item:hover {
+      background: var(--color-bg);
+      color: var(--color-text);
+    }
+
+    .nav-item.active {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      font-weight: 500;
+    }
+
+    .nav-item svg {
+      width: 18px;
+      height: 18px;
+      opacity: 0.7;
+    }
+
+    .nav-item.active svg {
+      opacity: 1;
+    }
+
+    .nav-badge {
+      margin-left: auto;
+      background: var(--color-accent);
+      color: white;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 10px;
+    }
+
+    .nav-badge.success {
+      background: var(--color-success);
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .org-switcher {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .org-switcher:hover {
+      background: var(--color-bg);
+    }
+
+    .org-icon {
+      width: 32px;
+      height: 32px;
+      background: var(--color-primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 14px;
+    }
+
+    .org-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .org-name {
+      font-size: 13px;
+      font-weight: 500;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .org-plan {
+      font-size: 11px;
+      color: var(--color-text-muted);
+    }
+
+    /* Main Content */
+    .main {
+      flex: 1;
+      margin-left: 260px;
+      min-height: 100vh;
+    }
+
+    /* Top Header */
+    .top-header {
+      background: var(--color-bg-card);
+      border-bottom: 1px solid var(--color-border);
+      padding: 16px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .search-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: var(--color-bg);
+      border-radius: var(--radius-sm);
+      width: 280px;
+      color: var(--color-text-muted);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .search-bar:hover {
+      background: var(--color-border-light);
+    }
+
+    .search-bar svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .search-bar span {
+      flex: 1;
+    }
+
+    .search-bar kbd {
+      background: var(--color-bg-card);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-family: var(--font-body);
+      border: 1px solid var(--color-border);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .header-btn {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-muted);
+      position: relative;
+      transition: all 0.15s;
+    }
+
+    .header-btn:hover {
+      background: var(--color-bg);
+      color: var(--color-text);
+    }
+
+    .header-btn svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .header-btn .badge {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      width: 8px;
+      height: 8px;
+      background: var(--color-accent);
+      border-radius: 50%;
+      border: 2px solid var(--color-bg-card);
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: var(--radius-sm);
+      margin-left: 8px;
+    }
+
+    .user-menu:hover {
+      background: var(--color-bg);
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    /* Content */
+    .content {
+      padding: 32px;
+      max-width: 1000px;
+    }
+
+    /* Page Header */
+    .page-header {
+      margin-bottom: 24px;
+    }
+
+    .greeting {
+      font-family: var(--font-display);
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .date-display {
+      font-size: 15px;
+      color: var(--color-text-muted);
+    }
+
+    /* Stats Bar */
+    .stats-bar {
+      display: flex;
+      gap: 1px;
+      background: var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      margin-bottom: 32px;
+    }
+
+    .stat-item {
+      flex: 1;
+      background: var(--color-bg-card);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .stat-item:hover {
+      background: var(--color-bg);
+    }
+
+    .stat-item.danger {
+      background: var(--color-danger-light);
+    }
+
+    .stat-item.danger:hover {
+      background: #FECACA;
+    }
+
+    .stat-item.warning {
+      background: var(--color-warning-light);
+    }
+
+    .stat-item.warning:hover {
+      background: #FDE68A;
+    }
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+
+    .stat-item.danger .stat-icon {
+      background: var(--color-danger);
+      color: white;
+    }
+
+    .stat-item.warning .stat-icon {
+      background: var(--color-warning);
+      color: white;
+    }
+
+    .stat-item .stat-icon {
+      background: var(--color-bg);
+    }
+
+    .stat-info {
+      flex: 1;
+    }
+
+    .stat-value {
+      font-size: 24px;
+      font-weight: 600;
+      font-family: var(--font-display);
+      line-height: 1.2;
+    }
+
+    .stat-item.danger .stat-value {
+      color: var(--color-danger);
+    }
+
+    .stat-item.warning .stat-value {
+      color: var(--color-warning);
+    }
+
+    .stat-label {
+      font-size: 13px;
+      color: var(--color-text-muted);
+    }
+
+    /* Sections */
+    .section {
+      margin-bottom: 32px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--color-text-muted);
+    }
+
+    .section-action {
+      font-size: 13px;
+      color: var(--color-primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .section-action:hover {
+      text-decoration: underline;
+    }
+
+    /* Attention Items */
+    .attention-list {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .attention-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--color-border-light);
+      transition: all 0.15s;
+    }
+
+    .attention-item:last-child {
+      border-bottom: none;
+    }
+
+    .attention-item:hover {
+      background: var(--color-bg);
+    }
+
+    .attention-status {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .attention-status.overdue {
+      background: var(--color-danger);
+    }
+
+    .attention-status.due-soon {
+      background: var(--color-warning);
+    }
+
+    .attention-status.blocked {
+      background: var(--color-accent);
+    }
+
+    .attention-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .attention-title {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .attention-meta {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .attention-meta .separator {
+      width: 3px;
+      height: 3px;
+      background: var(--color-text-light);
+      border-radius: 50%;
+    }
+
+    .event-tag {
+      padding: 2px 8px;
+      background: var(--color-bg);
+      border-radius: 4px;
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+
+    .attention-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .action-btn {
+      padding: 6px 12px;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: all 0.15s;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg-card);
+      color: var(--color-text);
+    }
+
+    .action-btn:hover {
+      background: var(--color-bg);
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .action-btn.primary {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+      color: white;
+    }
+
+    .action-btn.primary:hover {
+      background: var(--color-primary-hover);
+    }
+
+    /* Week View */
+    .week-view {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .week-day {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .week-day:hover {
+      border-color: var(--color-primary);
+    }
+
+    .week-day.today {
+      border-color: var(--color-primary);
+      background: var(--color-primary-light);
+    }
+
+    .week-day.has-overdue {
+      border-color: var(--color-danger);
+    }
+
+    .week-day-name {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 4px;
+    }
+
+    .week-day-date {
+      font-size: 18px;
+      font-weight: 600;
+      font-family: var(--font-display);
+      margin-bottom: 8px;
+    }
+
+    .week-day.today .week-day-date {
+      color: var(--color-primary);
+    }
+
+    .week-day-dots {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      min-height: 8px;
+    }
+
+    .week-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--color-primary);
+    }
+
+    .week-dot.warning {
+      background: var(--color-warning);
+    }
+
+    .week-dot.danger {
+      background: var(--color-danger);
+    }
+
+    .week-day-count {
+      font-size: 11px;
+      color: var(--color-text-muted);
+      margin-top: 4px;
+    }
+
+    /* Event Health Cards */
+    .event-health-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .event-health-card {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .event-health-card:hover {
+      border-color: var(--color-primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .event-health-card.at-risk {
+      border-left: 4px solid var(--color-danger);
+    }
+
+    .event-health-card.on-track {
+      border-left: 4px solid var(--color-success);
+    }
+
+    .event-health-card.not-started {
+      border-left: 4px solid var(--color-border);
+    }
+
+    .event-emoji {
+      font-size: 32px;
+      width: 48px;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--color-bg);
+      border-radius: var(--radius-sm);
+    }
+
+    .event-health-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .event-health-name {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .event-health-meta {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .risk-badge {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+
+    .risk-badge.danger {
+      background: var(--color-danger-light);
+      color: var(--color-danger);
+    }
+
+    .risk-badge.success {
+      background: var(--color-success-light);
+      color: var(--color-success);
+    }
+
+    .risk-badge.neutral {
+      background: var(--color-bg);
+      color: var(--color-text-muted);
+    }
+
+    .event-health-progress {
+      width: 200px;
+    }
+
+    .progress-bar-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 8px;
+      background: var(--color-border-light);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--color-primary);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    .progress-bar-fill.danger {
+      background: var(--color-danger);
+    }
+
+    .progress-bar-fill.success {
+      background: var(--color-success);
+    }
+
+    .progress-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--color-text-muted);
+      min-width: 40px;
+    }
+
+    .event-health-action {
+      padding: 8px 16px;
+      background: var(--color-bg);
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-muted);
+      transition: all 0.15s;
+    }
+
+    .event-health-card:hover .event-health-action {
+      background: var(--color-primary);
+      color: white;
+    }
+
+    /* Activity Feed */
+    .activity-feed {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--color-border-light);
+    }
+
+    .activity-item:last-child {
+      border-bottom: none;
+    }
+
+    .activity-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+
+    .activity-avatar.system {
+      background: var(--color-bg);
+      color: var(--color-text-muted);
+    }
+
+    .activity-content {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .activity-text {
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .activity-text strong {
+      font-weight: 600;
+    }
+
+    .activity-text .highlight {
+      color: var(--color-primary);
+      font-weight: 500;
+    }
+
+    .activity-time {
+      font-size: 12px;
+      color: var(--color-text-light);
+      margin-top: 2px;
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .quick-action-btn {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 20px;
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .quick-action-btn:hover {
+      border-color: var(--color-primary);
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+    }
+
+    .quick-action-btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Two Column Layout */
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 24px;
+    }
+
+    .main-col {
+      min-width: 0;
+    }
+
+    .side-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* My Tasks Widget */
+    .my-tasks-widget {
+      background: var(--color-bg-card);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .widget-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--color-border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .widget-title {
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .widget-badge {
+      background: var(--color-primary-light);
+      color: var(--color-primary);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .my-task-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--color-border-light);
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .my-task-item:last-child {
+      border-bottom: none;
+    }
+
+    .my-task-item:hover {
+      background: var(--color-bg);
+    }
+
+    .my-task-checkbox {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--color-border);
+      border-radius: 4px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .my-task-checkbox:hover {
+      border-color: var(--color-primary);
+    }
+
+    .my-task-checkbox.checked {
+      background: var(--color-primary);
+      border-color: var(--color-primary);
+    }
+
+    .my-task-checkbox svg {
+      width: 12px;
+      height: 12px;
+      color: white;
+      display: none;
+    }
+
+    .my-task-checkbox.checked svg {
+      display: block;
+    }
+
+    .my-task-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .my-task-name {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .my-task-event {
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+
+    .my-task-due {
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .my-task-due.overdue {
+      color: var(--color-danger);
+    }
+
+    .my-task-due.soon {
+      color: var(--color-warning);
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--color-text-muted);
+    }
+
+    .empty-state-icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+
+    .empty-state h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-text);
+      margin-bottom: 4px;
+    }
+
+    .empty-state p {
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        Steady
+      </div>
+
+      <nav>
+        <div class="nav-section">
+          <a class="nav-item active" href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            Dashboard
+          </a>
+          <a class="nav-item" href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            Events
+            <span class="nav-badge">3</span>
+          </a>
+          <a class="nav-item" href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            Timeline
+          </a>
+          <a class="nav-item" href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Team
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <div class="nav-section-title">Upcoming Events</div>
+          <a class="nav-item" href="#">
+            <span style="font-size: 16px;">🎭</span>
+            Spring Gala
+            <span class="nav-badge">2</span>
+          </a>
+          <a class="nav-item" href="#">
+            <span style="font-size: 16px;">📋</span>
+            Board Meeting
+            <span class="nav-badge success">✓</span>
+          </a>
+          <a class="nav-item" href="#">
+            <span style="font-size: 16px;">🏌️</span>
+            Golf Tournament
+          </a>
+        </div>
+
+        <div class="nav-section">
+          <a class="nav-item" href="#">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            Settings
+          </a>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="org-switcher">
+          <div class="org-icon">🏛️</div>
+          <div class="org-info">
+            <div class="org-name">Riverside Foundation</div>
+            <div class="org-plan">Pro Plan</div>
+          </div>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px; color: var(--color-text-muted);"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main">
+      <header class="top-header">
+        <div class="search-bar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Search events, milestones, team...</span>
+          <kbd>⌘K</kbd>
+        </div>
+        <div class="header-actions">
+          <button class="header-btn" title="Notifications">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+            <span class="badge"></span>
+          </button>
+          <button class="header-btn" title="Help">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </button>
+          <div class="user-menu">
+            <div class="user-avatar">SJ</div>
+          </div>
+        </div>
+      </header>
+
+      <div class="content">
+        <!-- Page Header -->
+        <div class="page-header">
+          <h1 class="greeting">Good morning, Sarah</h1>
+          <p class="date-display">Monday, January 20, 2025</p>
+        </div>
+
+        <!-- Stats Bar -->
+        <div class="stats-bar">
+          <div class="stat-item danger" onclick="scrollToSection('attention')">
+            <div class="stat-icon">🔴</div>
+            <div class="stat-info">
+              <div class="stat-value">2</div>
+              <div class="stat-label">Overdue</div>
+            </div>
+          </div>
+          <div class="stat-item warning" onclick="scrollToSection('attention')">
+            <div class="stat-icon">🟡</div>
+            <div class="stat-info">
+              <div class="stat-value">3</div>
+              <div class="stat-label">Due this week</div>
+            </div>
+          </div>
+          <div class="stat-item" onclick="scrollToSection('events')">
+            <div class="stat-icon">📅</div>
+            <div class="stat-info">
+              <div class="stat-value">3</div>
+              <div class="stat-label">Active events</div>
+            </div>
+          </div>
+          <div class="stat-item" onclick="scrollToSection('activity')">
+            <div class="stat-icon">✅</div>
+            <div class="stat-info">
+              <div class="stat-value">12</div>
+              <div class="stat-label">Completed this month</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="main-col">
+            <!-- Needs Attention -->
+            <div class="section" id="attention">
+              <div class="section-header">
+                <h2 class="section-title">Needs Your Attention</h2>
+                <a href="#" class="section-action">View all tasks →</a>
+              </div>
+              <div class="attention-list">
+                <div class="attention-item">
+                  <div class="attention-status overdue"></div>
+                  <div class="attention-content">
+                    <div class="attention-title">
+                      Confirm venue booking
+                      <span class="event-tag">🎭 Spring Gala</span>
+                    </div>
+                    <div class="attention-meta">
+                      <span>2 days overdue</span>
+                      <span class="separator"></span>
+                      <span>Assigned to you</span>
+                    </div>
+                  </div>
+                  <div class="attention-actions">
+                    <button class="action-btn primary" onclick="markDone(this)">Mark done</button>
+                  </div>
+                </div>
+
+                <div class="attention-item">
+                  <div class="attention-status overdue"></div>
+                  <div class="attention-content">
+                    <div class="attention-title">
+                      Send board agenda
+                      <span class="event-tag">📋 Board Meeting</span>
+                    </div>
+                    <div class="attention-meta">
+                      <span>1 day overdue</span>
+                      <span class="separator"></span>
+                      <span>Assigned to you</span>
+                    </div>
+                  </div>
+                  <div class="attention-actions">
+                    <button class="action-btn primary" onclick="markDone(this)">Mark done</button>
+                  </div>
+                </div>
+
+                <div class="attention-item">
+                  <div class="attention-status due-soon"></div>
+                  <div class="attention-content">
+                    <div class="attention-title">
+                      Book catering
+                      <span class="event-tag">🎭 Spring Gala</span>
+                    </div>
+                    <div class="attention-meta">
+                      <span>Due tomorrow</span>
+                      <span class="separator"></span>
+                      <span>Assigned to Lisa Park</span>
+                    </div>
+                  </div>
+                  <div class="attention-actions">
+                    <button class="action-btn" onclick="sendNudge(this)">Nudge</button>
+                    <button class="action-btn" onclick="reassign(this)">Reassign</button>
+                  </div>
+                </div>
+
+                <div class="attention-item">
+                  <div class="attention-status due-soon"></div>
+                  <div class="attention-content">
+                    <div class="attention-title">
+                      Design invitations
+                      <span class="event-tag">🎭 Spring Gala</span>
+                    </div>
+                    <div class="attention-meta">
+                      <span>Due in 3 days</span>
+                      <span class="separator"></span>
+                      <span>Unassigned</span>
+                    </div>
+                  </div>
+                  <div class="attention-actions">
+                    <button class="action-btn primary" onclick="assignTask(this)">Assign</button>
+                  </div>
+                </div>
+
+                <div class="attention-item">
+                  <div class="attention-status blocked"></div>
+                  <div class="attention-content">
+                    <div class="attention-title">
+                      Finalize guest list
+                      <span class="event-tag">🎭 Spring Gala</span>
+                    </div>
+                    <div class="attention-meta">
+                      <span>Blocked by: Confirm venue booking</span>
+                    </div>
+                  </div>
+                  <div class="attention-actions">
+                    <button class="action-btn" onclick="viewDependency(this)">View blocker</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- This Week -->
+            <div class="section">
+              <div class="section-header">
+                <h2 class="section-title">This Week</h2>
+                <a href="#" class="section-action">View calendar →</a>
+              </div>
+              <div class="week-view">
+                <div class="week-day today">
+                  <div class="week-day-name">Mon</div>
+                  <div class="week-day-date">20</div>
+                  <div class="week-day-dots">
+                    <div class="week-dot danger"></div>
+                    <div class="week-dot danger"></div>
+                  </div>
+                  <div class="week-day-count">2 overdue</div>
+                </div>
+                <div class="week-day">
+                  <div class="week-day-name">Tue</div>
+                  <div class="week-day-date">21</div>
+                  <div class="week-day-dots">
+                    <div class="week-dot warning"></div>
+                  </div>
+                  <div class="week-day-count">1 due</div>
+                </div>
+                <div class="week-day">
+                  <div class="week-day-name">Wed</div>
+                  <div class="week-day-date">22</div>
+                  <div class="week-day-dots"></div>
+                  <div class="week-day-count">Clear</div>
+                </div>
+                <div class="week-day">
+                  <div class="week-day-name">Thu</div>
+                  <div class="week-day-date">23</div>
+                  <div class="week-day-dots">
+                    <div class="week-dot"></div>
+                    <div class="week-dot"></div>
+                    <div class="week-dot"></div>
+                  </div>
+                  <div class="week-day-count">3 due</div>
+                </div>
+                <div class="week-day">
+                  <div class="week-day-name">Fri</div>
+                  <div class="week-day-date">24</div>
+                  <div class="week-day-dots">
+                    <div class="week-dot"></div>
+                  </div>
+                  <div class="week-day-count">1 due</div>
+                </div>
+                <div class="week-day">
+                  <div class="week-day-name">Sat</div>
+                  <div class="week-day-date">25</div>
+                  <div class="week-day-dots"></div>
+                  <div class="week-day-count">Clear</div>
+                </div>
+                <div class="week-day">
+                  <div class="week-day-name">Sun</div>
+                  <div class="week-day-date">26</div>
+                  <div class="week-day-dots"></div>
+                  <div class="week-day-count">Clear</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Event Health -->
+            <div class="section" id="events">
+              <div class="section-header">
+                <h2 class="section-title">Event Health</h2>
+                <a href="#" class="section-action">View all events →</a>
+              </div>
+              <div class="event-health-list">
+                <div class="event-health-card at-risk" onclick="viewEvent('gala')">
+                  <div class="event-emoji">🎭</div>
+                  <div class="event-health-info">
+                    <div class="event-health-name">
+                      Spring Gala
+                      <span class="risk-badge danger">2 at risk</span>
+                    </div>
+                    <div class="event-health-meta">
+                      <span>Apr 12, 2025</span>
+                      <span>•</span>
+                      <span>12 weeks out</span>
+                      <span>•</span>
+                      <span>6 of 18 complete</span>
+                    </div>
+                  </div>
+                  <div class="event-health-progress">
+                    <div class="progress-bar-container">
+                      <div class="progress-bar">
+                        <div class="progress-bar-fill danger" style="width: 33%"></div>
+                      </div>
+                      <div class="progress-text">33%</div>
+                    </div>
+                  </div>
+                  <div class="event-health-action">View</div>
+                </div>
+
+                <div class="event-health-card on-track" onclick="viewEvent('board')">
+                  <div class="event-emoji">📋</div>
+                  <div class="event-health-info">
+                    <div class="event-health-name">
+                      Board Meeting
+                      <span class="risk-badge success">On track</span>
+                    </div>
+                    <div class="event-health-meta">
+                      <span>Feb 15, 2025</span>
+                      <span>•</span>
+                      <span>4 weeks out</span>
+                      <span>•</span>
+                      <span>5 of 6 complete</span>
+                    </div>
+                  </div>
+                  <div class="event-health-progress">
+                    <div class="progress-bar-container">
+                      <div class="progress-bar">
+                        <div class="progress-bar-fill success" style="width: 83%"></div>
+                      </div>
+                      <div class="progress-text">83%</div>
+                    </div>
+                  </div>
+                  <div class="event-health-action">View</div>
+                </div>
+
+                <div class="event-health-card not-started" onclick="viewEvent('golf')">
+                  <div class="event-emoji">🏌️</div>
+                  <div class="event-health-info">
+                    <div class="event-health-name">
+                      Golf Tournament
+                      <span class="risk-badge neutral">Just started</span>
+                    </div>
+                    <div class="event-health-meta">
+                      <span>Jun 8, 2025</span>
+                      <span>•</span>
+                      <span>20 weeks out</span>
+                      <span>•</span>
+                      <span>1 of 14 complete</span>
+                    </div>
+                  </div>
+                  <div class="event-health-progress">
+                    <div class="progress-bar-container">
+                      <div class="progress-bar">
+                        <div class="progress-bar-fill" style="width: 7%"></div>
+                      </div>
+                      <div class="progress-text">7%</div>
+                    </div>
+                  </div>
+                  <div class="event-health-action">View</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="side-col">
+            <!-- My Tasks -->
+            <div class="my-tasks-widget">
+              <div class="widget-header">
+                <span class="widget-title">My Tasks</span>
+                <span class="widget-badge">5</span>
+              </div>
+              <div class="my-task-item" onclick="toggleTask(this)">
+                <div class="my-task-checkbox">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="my-task-info">
+                  <div class="my-task-name">Confirm venue booking</div>
+                  <div class="my-task-event">Spring Gala</div>
+                </div>
+                <div class="my-task-due overdue">2d overdue</div>
+              </div>
+              <div class="my-task-item" onclick="toggleTask(this)">
+                <div class="my-task-checkbox">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="my-task-info">
+                  <div class="my-task-name">Send board agenda</div>
+                  <div class="my-task-event">Board Meeting</div>
+                </div>
+                <div class="my-task-due overdue">1d overdue</div>
+              </div>
+              <div class="my-task-item" onclick="toggleTask(this)">
+                <div class="my-task-checkbox">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="my-task-info">
+                  <div class="my-task-name">Send save-the-dates</div>
+                  <div class="my-task-event">Spring Gala</div>
+                </div>
+                <div class="my-task-due soon">Thu</div>
+              </div>
+              <div class="my-task-item" onclick="toggleTask(this)">
+                <div class="my-task-checkbox">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="my-task-info">
+                  <div class="my-task-name">Review speaker contract</div>
+                  <div class="my-task-event">Spring Gala</div>
+                </div>
+                <div class="my-task-due">Feb 3</div>
+              </div>
+              <div class="my-task-item" onclick="toggleTask(this)">
+                <div class="my-task-checkbox">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="my-task-info">
+                  <div class="my-task-name">Finalize floor plan</div>
+                  <div class="my-task-event">Spring Gala</div>
+                </div>
+                <div class="my-task-due">Mar 1</div>
+              </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="section" id="activity">
+              <div class="section-header">
+                <h2 class="section-title">Team Activity</h2>
+              </div>
+              <div class="activity-feed">
+                <div class="activity-item">
+                  <div class="activity-avatar">LP</div>
+                  <div class="activity-content">
+                    <div class="activity-text">
+                      <strong>Lisa Park</strong> completed <span class="highlight">Design invitations</span>
+                    </div>
+                    <div class="activity-time">2 hours ago</div>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-avatar">MR</div>
+                  <div class="activity-content">
+                    <div class="activity-text">
+                      <strong>Michael Rodriguez</strong> completed <span class="highlight">Draft keynote speech</span>
+                    </div>
+                    <div class="activity-time">Yesterday at 4:32 PM</div>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-avatar system">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 16px; height: 16px;"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                  </div>
+                  <div class="activity-content">
+                    <div class="activity-text">
+                      Reminder sent to <strong>Lisa Park</strong> for <span class="highlight">Book catering</span>
+                    </div>
+                    <div class="activity-time">Yesterday at 9:00 AM</div>
+                  </div>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-avatar">SJ</div>
+                  <div class="activity-content">
+                    <div class="activity-text">
+                      <strong>You</strong> created <span class="highlight">Golf Tournament</span> event
+                    </div>
+                    <div class="activity-time">2 days ago</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <button class="quick-action-btn" onclick="createEvent()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="14" x2="12" y2="18"/><line x1="10" y1="16" x2="14" y2="16"/></svg>
+            Create Event
+          </button>
+          <button class="quick-action-btn" onclick="inviteTeam()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+            Invite Team Member
+          </button>
+          <button class="quick-action-btn" onclick="viewReports()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            View Reports
+          </button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function markDone(btn) {
+      const item = btn.closest('.attention-item');
+      item.style.opacity = '0.5';
+      item.style.textDecoration = 'line-through';
+      btn.textContent = 'Done!';
+      btn.disabled = true;
+      
+      // Show toast
+      showToast('Milestone marked complete');
+    }
+
+    function sendNudge(btn) {
+      btn.textContent = 'Sent!';
+      btn.disabled = true;
+      showToast('Reminder sent to Lisa Park');
+    }
+
+    function reassign(btn) {
+      const name = prompt('Reassign to:', 'Michael Rodriguez');
+      if (name) {
+        const meta = btn.closest('.attention-item').querySelector('.attention-meta');
+        meta.innerHTML = '<span>Due tomorrow</span><span class="separator"></span><span>Assigned to ' + name + '</span>';
+        showToast('Task reassigned to ' + name);
+      }
+    }
+
+    function assignTask(btn) {
+      const name = prompt('Assign to:', 'Lisa Park');
+      if (name) {
+        const meta = btn.closest('.attention-item').querySelector('.attention-meta');
+        meta.innerHTML = '<span>Due in 3 days</span><span class="separator"></span><span>Assigned to ' + name + '</span>';
+        btn.textContent = 'Reassign';
+        btn.classList.remove('primary');
+        showToast('Task assigned to ' + name);
+      }
+    }
+
+    function viewDependency(btn) {
+      alert('Would navigate to: Confirm venue booking milestone');
+    }
+
+    function toggleTask(item) {
+      const checkbox = item.querySelector('.my-task-checkbox');
+      checkbox.classList.toggle('checked');
+      if (checkbox.classList.contains('checked')) {
+        item.style.opacity = '0.5';
+        showToast('Task completed!');
+      } else {
+        item.style.opacity = '1';
+      }
+    }
+
+    function viewEvent(id) {
+      alert('Would navigate to event detail page: ' + id);
+    }
+
+    function createEvent() {
+      alert('Would open Create Event flow');
+    }
+
+    function inviteTeam() {
+      alert('Would open team invite modal');
+    }
+
+    function viewReports() {
+      alert('Would navigate to reports page');
+    }
+
+    function showToast(message) {
+      // Simple toast notification
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        background: #1a1a1a;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 8px;
+        font-size: 14px;
+        z-index: 1000;
+        animation: slideIn 0.3s ease;
+      `;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s';
+        setTimeout(() => toast.remove(), 300);
+      }, 2000);
+    }
+
+    // Add animation keyframes
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes slideIn {
+        from { transform: translateY(20px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+</body>
+</html>

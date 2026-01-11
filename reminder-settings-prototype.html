@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Steady - Reminder Settings</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Fraunces:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #FDFBF7; --card: #FFFFFF; --text: #1a1a1a; --muted: #6b6b6b; --light: #999;
+      --primary: #2D5A4A; --primary-light: #E8F0ED; --accent: #E07A5F;
+      --warning: #D97706; --warning-light: #FEF3C7; --danger: #DC2626; --danger-light: #FEE2E2;
+      --success: #059669; --success-light: #D1FAE5; --border: #E5E2DC; --border-light: #F0EDE7;
+      --purple: #7C3AED; --purple-light: #EDE9FE; --blue: #2563EB; --blue-light: #DBEAFE;
+      --font-display: 'Fraunces', serif; --font-body: 'DM Sans', sans-serif;
+      --radius: 8px; --radius-md: 12px;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; }
+    
+    .container { max-width: 900px; margin: 0 auto; padding: 40px 24px; }
+    
+    .back-link { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; color: var(--muted); text-decoration: none; margin-bottom: 24px; }
+    .back-link:hover { color: var(--primary); }
+    
+    .page-header { margin-bottom: 32px; }
+    .page-header h1 { font-family: var(--font-display); font-size: 28px; font-weight: 600; margin-bottom: 8px; }
+    .page-header p { font-size: 15px; color: var(--muted); max-width: 600px; }
+    
+    /* Tabs */
+    .tabs { display: flex; gap: 4px; background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px; margin-bottom: 32px; width: fit-content; }
+    .tab { padding: 10px 20px; font-size: 14px; font-weight: 500; border: none; background: transparent; color: var(--muted); border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+    .tab:hover { color: var(--text); }
+    .tab.active { background: var(--primary); color: white; }
+    
+    /* Section */
+    .section { margin-bottom: 32px; }
+    .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+    .section-title { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 10px; }
+    .section-title .icon { font-size: 20px; }
+    .section-desc { font-size: 13px; color: var(--muted); margin-top: 2px; }
+    
+    /* Inheritance indicator */
+    .inheritance-badge { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; background: var(--blue-light); color: var(--blue); border-radius: 100px; font-size: 11px; font-weight: 500; }
+    .inheritance-badge.custom { background: var(--purple-light); color: var(--purple); }
+    
+    /* Card */
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-md); overflow: hidden; margin-bottom: 20px; }
+    .card-header { padding: 16px 20px; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between; }
+    .card-title { font-size: 14px; font-weight: 600; }
+    .card-body { padding: 20px; }
+    
+    /* Hierarchy visual */
+    .hierarchy { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+    .hierarchy-level { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--bg); border-radius: var(--radius); position: relative; }
+    .hierarchy-level::before { content: ''; position: absolute; left: 28px; top: -12px; width: 2px; height: 12px; background: var(--border); }
+    .hierarchy-level:first-child::before { display: none; }
+    .hierarchy-level.active { background: var(--primary-light); border: 2px solid var(--primary); }
+    .hierarchy-icon { width: 32px; height: 32px; border-radius: 8px; background: var(--card); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+    .hierarchy-level.active .hierarchy-icon { background: var(--primary); border-color: var(--primary); }
+    .hierarchy-info { flex: 1; }
+    .hierarchy-name { font-size: 13px; font-weight: 500; }
+    .hierarchy-desc { font-size: 11px; color: var(--muted); }
+    .hierarchy-status { font-size: 11px; color: var(--muted); }
+    .hierarchy-status.custom { color: var(--purple); font-weight: 500; }
+    
+    /* Settings rows */
+    .setting-row { display: flex; align-items: flex-start; justify-content: space-between; padding: 16px 0; border-bottom: 1px solid var(--border-light); }
+    .setting-row:last-child { border-bottom: none; }
+    .setting-info { flex: 1; }
+    .setting-label { font-size: 14px; font-weight: 500; margin-bottom: 2px; }
+    .setting-desc { font-size: 13px; color: var(--muted); }
+    .setting-control { display: flex; align-items: center; gap: 12px; }
+    
+    /* Toggle switch */
+    .toggle { position: relative; width: 44px; height: 24px; background: var(--border); border-radius: 12px; cursor: pointer; transition: background 0.2s; }
+    .toggle.on { background: var(--primary); }
+    .toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; background: white; border-radius: 50%; transition: transform 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+    .toggle.on::after { transform: translateX(20px); }
+    
+    /* Reminder schedule */
+    .reminder-schedule { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+    .reminder-chip { display: flex; align-items: center; gap: 6px; padding: 8px 14px; background: var(--bg); border: 1px solid var(--border); border-radius: 100px; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+    .reminder-chip:hover { border-color: var(--primary); }
+    .reminder-chip.active { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+    .reminder-chip .check { width: 16px; height: 16px; border: 2px solid var(--border); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 10px; color: transparent; }
+    .reminder-chip.active .check { background: var(--primary); border-color: var(--primary); color: white; }
+    .add-reminder { padding: 8px 14px; background: transparent; border: 1px dashed var(--border); border-radius: 100px; font-size: 13px; color: var(--muted); cursor: pointer; }
+    .add-reminder:hover { border-color: var(--primary); color: var(--primary); }
+    
+    /* Escalation settings */
+    .escalation-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--bg); border-radius: var(--radius); margin-bottom: 8px; }
+    .escalation-row input[type="number"] { width: 60px; padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; text-align: center; }
+    .escalation-row select { padding: 6px 10px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; background: var(--card); }
+    .escalation-text { font-size: 14px; color: var(--text); }
+    
+    /* Team preferences summary */
+    .team-prefs { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+    .team-pref-card { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: var(--bg); border-radius: var(--radius); }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; }
+    .team-pref-info { flex: 1; }
+    .team-pref-name { font-size: 14px; font-weight: 500; }
+    .team-pref-detail { font-size: 12px; color: var(--muted); }
+    .team-pref-edit { padding: 6px 12px; font-size: 12px; border: 1px solid var(--border); background: var(--card); border-radius: var(--radius); cursor: pointer; }
+    .team-pref-edit:hover { border-color: var(--primary); color: var(--primary); }
+    
+    /* Override indicator */
+    .override-box { background: var(--purple-light); border: 1px solid var(--purple); border-radius: var(--radius); padding: 12px 16px; margin-top: 12px; display: flex; align-items: center; gap: 12px; }
+    .override-box .icon { font-size: 18px; }
+    .override-box .text { flex: 1; font-size: 13px; color: var(--purple); }
+    .override-box button { padding: 6px 12px; font-size: 12px; background: var(--purple); color: white; border: none; border-radius: var(--radius); cursor: pointer; }
+    
+    /* Reset link */
+    .reset-link { font-size: 12px; color: var(--muted); cursor: pointer; display: flex; align-items: center; gap: 4px; }
+    .reset-link:hover { color: var(--danger); }
+    
+    /* Buttons */
+    .btn { padding: 10px 20px; font-size: 14px; font-weight: 500; border-radius: var(--radius); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; border: none; font-family: var(--font-body); }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: #234539; }
+    .btn-secondary { background: var(--card); border: 1px solid var(--border); color: var(--text); }
+    .btn-secondary:hover { background: var(--bg); }
+    
+    /* Footer */
+    .page-footer { display: flex; justify-content: space-between; align-items: center; padding-top: 24px; border-top: 1px solid var(--border); margin-top: 32px; }
+    
+    /* Info callout */
+    .info-callout { background: var(--blue-light); border-radius: var(--radius); padding: 14px 18px; display: flex; gap: 12px; margin-bottom: 24px; }
+    .info-callout .icon { font-size: 18px; }
+    .info-callout .text { font-size: 13px; color: var(--text); }
+    .info-callout .text strong { font-weight: 600; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <a href="#" class="back-link">← Back to Spring Gala 2025</a>
+  
+  <div class="page-header">
+    <h1>⚙️ Reminder Settings</h1>
+    <p>Control how and when your team gets reminded about upcoming tasks. Settings flow down from your organization defaults to each event.</p>
+  </div>
+  
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(this, 'event')">This Event</button>
+    <button class="tab" onclick="switchTab(this, 'template')">Gala Template</button>
+    <button class="tab" onclick="switchTab(this, 'org')">Organization Defaults</button>
+  </div>
+  
+  <!-- Info callout -->
+  <div class="info-callout">
+    <div class="icon">💡</div>
+    <div class="text">
+      <strong>How settings work:</strong> Each event starts with your organization's default settings, then applies the event type template (Gala), then any custom settings you make here. You only need to change what's different.
+    </div>
+  </div>
+  
+  <!-- Settings hierarchy visualization -->
+  <div class="card" style="margin-bottom: 32px;">
+    <div class="card-header">
+      <span class="card-title">Settings Inheritance</span>
+      <span class="inheritance-badge custom">2 custom settings</span>
+    </div>
+    <div class="card-body">
+      <div class="hierarchy">
+        <div class="hierarchy-level">
+          <div class="hierarchy-icon">🏢</div>
+          <div class="hierarchy-info">
+            <div class="hierarchy-name">Organization Defaults</div>
+            <div class="hierarchy-desc">Riverside Community Foundation</div>
+          </div>
+          <div class="hierarchy-status">Base settings</div>
+        </div>
+        <div class="hierarchy-level">
+          <div class="hierarchy-icon">🎭</div>
+          <div class="hierarchy-info">
+            <div class="hierarchy-name">Annual Gala Template</div>
+            <div class="hierarchy-desc">Default settings for all galas</div>
+          </div>
+          <div class="hierarchy-status custom">1 override</div>
+        </div>
+        <div class="hierarchy-level active">
+          <div class="hierarchy-icon">📅</div>
+          <div class="hierarchy-info">
+            <div class="hierarchy-name">Spring Gala 2025</div>
+            <div class="hierarchy-desc">April 12, 2025</div>
+          </div>
+          <div class="hierarchy-status custom">1 override</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Reminder Schedule -->
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-title"><span class="icon">🔔</span> Reminder Schedule</div>
+        <div class="section-desc">When should we remind team members about upcoming tasks?</div>
+      </div>
+      <span class="inheritance-badge">Using Gala template</span>
+    </div>
+    
+    <div class="card">
+      <div class="card-body">
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Send reminders</div>
+            <div class="setting-desc">Team members will get reminders before their tasks are due</div>
+          </div>
+          <div class="setting-control">
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+        </div>
+        
+        <div class="setting-row" style="flex-direction: column; align-items: flex-start;">
+          <div class="setting-info" style="margin-bottom: 8px;">
+            <div class="setting-label">Reminder timing</div>
+            <div class="setting-desc">Select when reminders are sent before each task's due date</div>
+          </div>
+          <div class="reminder-schedule">
+            <div class="reminder-chip active" onclick="this.classList.toggle('active')">
+              <span class="check">✓</span> 2 weeks before
+            </div>
+            <div class="reminder-chip active" onclick="this.classList.toggle('active')">
+              <span class="check">✓</span> 1 week before
+            </div>
+            <div class="reminder-chip active" onclick="this.classList.toggle('active')">
+              <span class="check">✓</span> 3 days before
+            </div>
+            <div class="reminder-chip active" onclick="this.classList.toggle('active')">
+              <span class="check">✓</span> 1 day before
+            </div>
+            <div class="reminder-chip" onclick="this.classList.toggle('active')">
+              <span class="check">✓</span> Day of
+            </div>
+            <button class="add-reminder" onclick="addReminder()">+ Custom</button>
+          </div>
+        </div>
+        
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Time of day</div>
+            <div class="setting-desc">When reminders are sent (in each person's local time)</div>
+          </div>
+          <div class="setting-control">
+            <select>
+              <option>8:00 AM</option>
+              <option selected>9:00 AM</option>
+              <option>10:00 AM</option>
+              <option>12:00 PM</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Escalation -->
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-title"><span class="icon">⚠️</span> When Things Are Late</div>
+        <div class="section-desc">What happens when a task goes past its due date</div>
+      </div>
+      <span class="inheritance-badge custom">Customized</span>
+    </div>
+    
+    <div class="card">
+      <div class="card-body">
+        <div class="escalation-row">
+          <span class="escalation-text">Notify</span>
+          <select>
+            <option selected>Executive Director</option>
+            <option>Task owner's manager</option>
+            <option>Event lead</option>
+          </select>
+          <span class="escalation-text">when a task is overdue by</span>
+          <input type="number" value="2" min="1" max="14">
+          <span class="escalation-text">days</span>
+        </div>
+        
+        <div class="escalation-row">
+          <span class="escalation-text">Send</span>
+          <select>
+            <option>Email only</option>
+            <option selected>Email + SMS</option>
+            <option>Email + Slack</option>
+          </select>
+          <span class="escalation-text">to task owner when overdue by</span>
+          <input type="number" value="3" min="1" max="14">
+          <span class="escalation-text">days</span>
+        </div>
+        
+        <div class="override-box">
+          <div class="icon">✏️</div>
+          <div class="text">This event uses <strong>Email + SMS</strong> for late tasks (Gala template uses Email only)</div>
+          <button onclick="resetEscalation()">Reset to template</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- ED Digest -->
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-title"><span class="icon">📊</span> Executive Director Updates</div>
+        <div class="section-desc">Keep the ED informed about overall event status</div>
+      </div>
+      <span class="inheritance-badge">Using org defaults</span>
+    </div>
+    
+    <div class="card">
+      <div class="card-body">
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Weekly status digest</div>
+            <div class="setting-desc">Summary of all milestones: completed, upcoming, and at-risk</div>
+          </div>
+          <div class="setting-control">
+            <select>
+              <option>Don't send</option>
+              <option selected>Monday mornings</option>
+              <option>Friday afternoons</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Daily digest (final stretch)</div>
+            <div class="setting-desc">Daily rundown during the last 2 weeks before the event</div>
+          </div>
+          <div class="setting-control">
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+        </div>
+        
+        <div class="setting-row">
+          <div class="setting-info">
+            <div class="setting-label">Immediate alerts</div>
+            <div class="setting-desc">Get notified right away when critical milestones are at risk</div>
+          </div>
+          <div class="setting-control">
+            <div class="toggle on" onclick="this.classList.toggle('on')"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Team Preferences -->
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-title"><span class="icon">👥</span> Team Member Preferences</div>
+        <div class="section-desc">Each person can set how they prefer to receive reminders</div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-body">
+        <div class="team-prefs">
+          <div class="team-pref-card">
+            <div class="avatar">SJ</div>
+            <div class="team-pref-info">
+              <div class="team-pref-name">Sarah Johnson</div>
+              <div class="team-pref-detail">📧 Email • Daily digest at 8 AM</div>
+            </div>
+            <button class="team-pref-edit" onclick="editMemberPrefs('Sarah')">Edit</button>
+          </div>
+          
+          <div class="team-pref-card">
+            <div class="avatar">LP</div>
+            <div class="team-pref-info">
+              <div class="team-pref-name">Lisa Park</div>
+              <div class="team-pref-detail">📧 Email • As they happen</div>
+            </div>
+            <button class="team-pref-edit" onclick="editMemberPrefs('Lisa')">Edit</button>
+          </div>
+          
+          <div class="team-pref-card">
+            <div class="avatar">MR</div>
+            <div class="team-pref-info">
+              <div class="team-pref-name">Michael Rodriguez</div>
+              <div class="team-pref-detail">📧 Email • Weekly digest Mon</div>
+            </div>
+            <button class="team-pref-edit" onclick="editMemberPrefs('Michael')">Edit</button>
+          </div>
+        </div>
+        
+        <p style="font-size: 12px; color: var(--muted); margin-top: 16px;">
+          💡 Team members can also update their own preferences from their profile settings.
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Individual Milestone Overrides -->
+  <div class="section">
+    <div class="section-header">
+      <div>
+        <div class="section-title"><span class="icon">🎯</span> Milestone-Level Overrides</div>
+        <div class="section-desc">Some tasks have custom reminder settings</div>
+      </div>
+    </div>
+    
+    <div class="card">
+      <div class="card-body" style="padding: 0;">
+        <div style="padding: 14px 18px; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="font-size: 14px; font-weight: 500;">Confirm venue booking</div>
+            <div style="font-size: 12px; color: var(--muted);">Extra reminder: 2 days before (critical task)</div>
+          </div>
+          <span class="reset-link" onclick="resetMilestone('venue')">🔄 Reset to event settings</span>
+        </div>
+        
+        <div style="padding: 14px 18px; border-bottom: 1px solid var(--border-light); display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <div style="font-size: 14px; font-weight: 500;">Rehearsal/tech check</div>
+            <div style="font-size: 12px; color: var(--muted);">Reminders: 1 day and day-of only</div>
+          </div>
+          <span class="reset-link" onclick="resetMilestone('rehearsal')">🔄 Reset to event settings</span>
+        </div>
+        
+        <div style="padding: 14px 18px; text-align: center;">
+          <span style="font-size: 13px; color: var(--muted);">All other milestones use this event's settings</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <div class="page-footer">
+    <div>
+      <span class="reset-link" onclick="resetAll()">🔄 Reset all to Gala template</span>
+    </div>
+    <div style="display: flex; gap: 12px;">
+      <button class="btn btn-secondary">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSettings()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(btn, tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  
+  const titles = {
+    event: '⚙️ Reminder Settings — Spring Gala 2025',
+    template: '⚙️ Reminder Settings — Annual Gala Template', 
+    org: '⚙️ Reminder Settings — Organization Defaults'
+  };
+  document.querySelector('.page-header h1').textContent = titles[tab];
+  toast('Viewing: ' + tab + ' settings');
+}
+
+function addReminder() {
+  const timing = prompt('Add custom reminder (e.g., "4 days before", "2 hours before"):');
+  if (timing) {
+    toast('Added reminder: ' + timing);
+  }
+}
+
+function resetEscalation() {
+  toast('Reset to Gala template: Email only');
+}
+
+function resetMilestone(name) {
+  toast('Reset milestone to event settings');
+}
+
+function resetAll() {
+  if (confirm('Reset all settings to the Gala template defaults?')) {
+    toast('All settings reset to Gala template');
+  }
+}
+
+function editMemberPrefs(name) {
+  alert('Edit preferences for ' + name + ':\n\n• Contact method (Email, SMS, Slack)\n• Notification style (Real-time, Daily digest, Weekly digest)\n• Working hours\n• Timezone');
+}
+
+function saveSettings() {
+  toast('Settings saved!');
+}
+
+function toast(msg) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#1a1a1a;color:white;padding:12px 20px;border-radius:8px;font-size:13px;z-index:1000';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 2000);
+}
+</script>
+</body>
+</html>
