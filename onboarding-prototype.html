@@ -15,51 +15,35 @@
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
-    
     .app { display: flex; min-height: 100vh; }
-    
-    /* Sidebar */
     .sidebar { width: 280px; background: var(--card); border-right: 1px solid var(--border); padding: 32px 24px; }
     .logo { font-family: var(--font-display); font-size: 26px; font-weight: 600; color: var(--primary); margin-bottom: 48px; display: flex; align-items: center; gap: 10px; }
     .logo-icon { width: 36px; height: 36px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; color: white; font-size: 18px; }
-    
     .progress-steps { display: flex; flex-direction: column; gap: 4px; }
     .progress-step { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-radius: var(--radius); color: var(--muted); font-size: 14px; }
     .progress-step .num { width: 28px; height: 28px; border-radius: 50%; border: 2px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; }
     .progress-step.active { background: var(--primary-light); color: var(--primary); }
     .progress-step.active .num { background: var(--primary); border-color: var(--primary); color: white; }
     .progress-step.completed .num { background: var(--primary); border-color: var(--primary); color: white; }
-    .progress-step.completed .num::after { content: '✓'; }
-    .progress-step.completed .num span { display: none; }
-    
-    /* Main */
     .main { flex: 1; padding: 48px 64px; max-width: 700px; }
     h1 { font-family: var(--font-display); font-size: 32px; margin-bottom: 8px; }
     .subtitle { font-size: 16px; color: var(--muted); margin-bottom: 32px; }
     label { display: block; font-size: 14px; font-weight: 500; margin-bottom: 8px; margin-top: 24px; }
     input[type="text"] { width: 100%; padding: 14px 16px; font-size: 15px; border: 1px solid var(--border); border-radius: var(--radius); font-family: var(--font-body); }
     input:focus { outline: none; border-color: var(--primary); }
-    
-    /* Selection cards */
     .selection-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 24px; }
-    .selection-card { padding: 20px; border: 2px solid var(--border); border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s; }
+    .selection-card { padding: 20px; border: 2px solid var(--border); border-radius: var(--radius-md); cursor: pointer; }
     .selection-card:hover { border-color: var(--primary); }
     .selection-card.selected { border-color: var(--primary); background: var(--primary-light); }
     .selection-card .icon { font-size: 28px; margin-bottom: 8px; }
     .selection-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
     .selection-card p { font-size: 13px; color: var(--muted); }
-    
-    /* Event pills */
     .event-types { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-    .event-pill { padding: 10px 16px; border: 1px solid var(--border); border-radius: 100px; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.15s; background: var(--card); }
+    .event-pill { padding: 10px 16px; border: 1px solid var(--border); border-radius: 100px; font-size: 14px; cursor: pointer; display: flex; align-items: center; gap: 6px; background: var(--card); }
     .event-pill:hover { border-color: var(--primary); }
     .event-pill.selected { background: var(--primary); border-color: var(--primary); color: white; }
     .event-pill.add-custom { border-style: dashed; color: var(--muted); }
-    
-    /* Hint box */
     .hint { display: flex; gap: 12px; padding: 16px; background: var(--primary-light); border-radius: var(--radius-md); margin-bottom: 24px; font-size: 14px; color: var(--primary); }
-    
-    /* Team members */
     .team-list { margin-top: 16px; }
     .team-member { display: flex; align-items: center; gap: 12px; padding: 12px 16px; background: var(--bg); border-radius: var(--radius); margin-bottom: 8px; }
     .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--primary-light); color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; }
@@ -67,12 +51,9 @@
     .team-member .name { font-size: 14px; font-weight: 500; }
     .team-member .role { font-size: 12px; color: var(--muted); }
     .team-member .badge { font-size: 11px; padding: 2px 8px; background: var(--primary-light); color: var(--primary); border-radius: 100px; }
-    
     .add-member-row { display: flex; gap: 8px; margin-top: 16px; }
     .add-member-row input { flex: 1; }
     .add-member-row select { padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; }
-    
-    /* Summary */
     .summary-section { margin-bottom: 24px; }
     .summary-section h3 { font-size: 14px; font-weight: 600; color: var(--muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
     .summary-card { background: var(--bg); border-radius: var(--radius-md); padding: 16px; }
@@ -85,8 +66,6 @@
     .summary-member .avatar { width: 32px; height: 32px; font-size: 11px; }
     .summary-member .name { font-size: 14px; font-weight: 500; }
     .summary-member .email { font-size: 12px; color: var(--muted); }
-    
-    /* Success */
     .celebration { text-align: center; padding: 40px 0; }
     .celebration-icon { font-size: 64px; margin-bottom: 24px; }
     .next-steps { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius-md); padding: 24px; margin: 32px 0; text-align: left; }
@@ -94,21 +73,16 @@
     .next-step-item { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border-light); }
     .next-step-item:last-child { border: none; }
     .next-step-num { width: 24px; height: 24px; background: var(--primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; }
-    
-    /* Buttons */
-    .btn { padding: 14px 28px; font-size: 15px; font-weight: 500; border-radius: var(--radius); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; border: none; font-family: var(--font-body); transition: all 0.2s; }
+    .btn { padding: 14px 28px; font-size: 15px; font-weight: 500; border-radius: var(--radius); cursor: pointer; display: inline-flex; align-items: center; gap: 8px; border: none; font-family: var(--font-body); text-decoration: none; }
     .btn-primary { background: var(--primary); color: white; }
     .btn-primary:hover { background: var(--primary-hover); }
     .btn-secondary { background: transparent; border: 1px solid var(--border); color: var(--muted); }
     .btn-secondary:hover { background: var(--bg); color: var(--text); }
     .btn-row { display: flex; gap: 12px; margin-top: 32px; }
     .btn-row .btn-primary { flex: 1; justify-content: center; }
-    
     .skip-link { text-align: center; margin-top: 24px; }
     .skip-link a { color: var(--muted); font-size: 14px; text-decoration: none; }
     .skip-link a:hover { color: var(--primary); text-decoration: underline; }
-    
-    /* Steps visibility */
     .step { display: none; }
     .step.active { display: block; }
   </style>
@@ -118,61 +92,35 @@
   <aside class="sidebar">
     <div class="logo"><div class="logo-icon">📊</div> Steady</div>
     <div class="progress-steps">
-      <div class="progress-step active" id="nav-1"><div class="num"><span>1</span></div> Your Organization</div>
-      <div class="progress-step" id="nav-2"><div class="num"><span>2</span></div> Event Types</div>
-      <div class="progress-step" id="nav-3"><div class="num"><span>3</span></div> Your Team</div>
-      <div class="progress-step" id="nav-4"><div class="num"><span>4</span></div> Review & Launch</div>
+      <div class="progress-step active" id="nav-1"><div class="num">1</div> Your Organization</div>
+      <div class="progress-step" id="nav-2"><div class="num">2</div> Event Types</div>
+      <div class="progress-step" id="nav-3"><div class="num">3</div> Your Team</div>
+      <div class="progress-step" id="nav-4"><div class="num">4</div> Review & Launch</div>
     </div>
   </aside>
 
   <main class="main">
-    <!-- Step 1: Organization -->
     <div class="step active" id="step-1">
       <h1>Let's set up your organization</h1>
       <p class="subtitle">Tell us a bit about your nonprofit so we can customize your experience.</p>
-      
       <label>Organization name</label>
       <input type="text" value="Riverside Community Foundation" placeholder="e.g., Riverside Community Foundation">
-      
       <label style="margin-top: 32px;">What type of organization?</label>
       <div class="selection-grid">
-        <div class="selection-card selected" onclick="selectCard(this)">
-          <div class="icon">🏛️</div>
-          <h3>501(c)(3) Nonprofit</h3>
-          <p>Registered tax-exempt organization</p>
-        </div>
-        <div class="selection-card" onclick="selectCard(this)">
-          <div class="icon">🤝</div>
-          <h3>Community Group</h3>
-          <p>Local club, association, or informal group</p>
-        </div>
-        <div class="selection-card" onclick="selectCard(this)">
-          <div class="icon">⛪</div>
-          <h3>Religious Organization</h3>
-          <p>Church, synagogue, mosque, or faith group</p>
-        </div>
-        <div class="selection-card" onclick="selectCard(this)">
-          <div class="icon">🏫</div>
-          <h3>School/PTA</h3>
-          <p>Educational institution or parent group</p>
-        </div>
+        <div class="selection-card selected" onclick="selectCard(this)"><div class="icon">🏛️</div><h3>501(c)(3) Nonprofit</h3><p>Registered tax-exempt organization</p></div>
+        <div class="selection-card" onclick="selectCard(this)"><div class="icon">🤝</div><h3>Community Group</h3><p>Local club, association, or informal group</p></div>
+        <div class="selection-card" onclick="selectCard(this)"><div class="icon">⛪</div><h3>Religious Organization</h3><p>Church, synagogue, mosque, or faith group</p></div>
+        <div class="selection-card" onclick="selectCard(this)"><div class="icon">🏫</div><h3>School/PTA</h3><p>Educational institution or parent group</p></div>
       </div>
-      
       <div class="btn-row">
-        <button class="btn btn-primary" onclick="goToStep(2)">Continue →</button>
+        <button type="button" class="btn btn-primary" onclick="goToStep(2)">Continue →</button>
       </div>
     </div>
 
-    <!-- Step 2: Event Types -->
     <div class="step" id="step-2">
       <h1>What events do you manage?</h1>
       <p class="subtitle">Select the types of events your organization runs. We'll create smart templates for each.</p>
-      
-      <div class="hint">
-        <span>💡</span>
-        <span>Based on similar organizations, we've pre-selected common event types. Feel free to adjust!</span>
-      </div>
-      
+      <div class="hint"><span>💡</span><span>Based on similar organizations, we've pre-selected common event types. Feel free to adjust!</span></div>
       <label>Fundraising & Galas</label>
       <div class="event-types">
         <div class="event-pill selected" onclick="togglePill(this)">🎭 Annual Gala</div>
@@ -180,7 +128,6 @@
         <div class="event-pill" onclick="togglePill(this)">🍷 Wine Tasting</div>
         <div class="event-pill" onclick="togglePill(this)">🎪 Silent Auction</div>
       </div>
-      
       <label>Community Events</label>
       <div class="event-types">
         <div class="event-pill selected" onclick="togglePill(this)">🎉 Community Festival</div>
@@ -188,173 +135,74 @@
         <div class="event-pill" onclick="togglePill(this)">🧹 Volunteer Day</div>
         <div class="event-pill add-custom" onclick="addCustom()">+ Add custom</div>
       </div>
-      
       <label>Internal & Board</label>
       <div class="event-types">
         <div class="event-pill selected" onclick="togglePill(this)">📋 Board Meeting</div>
         <div class="event-pill selected" onclick="togglePill(this)">📊 Annual Meeting</div>
         <div class="event-pill" onclick="togglePill(this)">🎯 Strategic Planning</div>
       </div>
-      
       <label>Compliance & Housekeeping</label>
       <div class="event-types">
         <div class="event-pill selected" onclick="togglePill(this)">📝 Grant Deadlines</div>
         <div class="event-pill selected" onclick="togglePill(this)">📑 Annual Filing</div>
         <div class="event-pill" onclick="togglePill(this)">🔍 Audit</div>
       </div>
-      
       <div class="btn-row">
-        <button class="btn btn-secondary" onclick="goToStep(1)">Back</button>
-        <button class="btn btn-primary" onclick="goToStep(3)">Continue →</button>
+        <button type="button" class="btn btn-secondary" onclick="goToStep(1)">Back</button>
+        <button type="button" class="btn btn-primary" onclick="goToStep(3)">Continue →</button>
       </div>
     </div>
 
-    <!-- Step 3: Team -->
     <div class="step" id="step-3">
       <h1>Who's on your team?</h1>
       <p class="subtitle">Add the people who help run your events. They'll get their own login and task reminders.</p>
-      
       <div class="team-list">
-        <div class="team-member">
-          <div class="avatar">SJ</div>
-          <div class="info">
-            <div class="name">Sarah Johnson</div>
-            <div class="role"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f2819380939ab2809b849780819b9697dc9d8095">[email&#160;protected]</a></div>
-          </div>
-          <span class="badge">You (ED)</span>
-        </div>
-        <div class="team-member">
-          <div class="avatar">MR</div>
-          <div class="info">
-            <div class="name">Michael Rodriguez</div>
-            <div class="role"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0c61656f646d69604c7e657a697e7f65686922637e6b">[email&#160;protected]</a></div>
-          </div>
-          <span style="font-size: 12px; color: var(--muted);">Board Chair</span>
-        </div>
-        <div class="team-member">
-          <div class="avatar">LP</div>
-          <div class="info">
-            <div class="name">Lisa Park</div>
-            <div class="role"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a4c8cdd7c5e4d6cdd2c1d6d7cdc0c18acbd6c3">[email&#160;protected]</a></div>
-          </div>
-          <span style="font-size: 12px; color: var(--muted);">Volunteer Coordinator</span>
-        </div>
+        <div class="team-member"><div class="avatar">SJ</div><div class="info"><div class="name">Sarah Johnson</div><div class="role">sarah@riverside.org</div></div><span class="badge">You (ED)</span></div>
+        <div class="team-member"><div class="avatar">MR</div><div class="info"><div class="name">Michael Rodriguez</div><div class="role">michael@riverside.org</div></div><span style="font-size: 12px; color: var(--muted);">Board Chair</span></div>
+        <div class="team-member"><div class="avatar">LP</div><div class="info"><div class="name">Lisa Park</div><div class="role">lisa@riverside.org</div></div><span style="font-size: 12px; color: var(--muted);">Volunteer Coordinator</span></div>
       </div>
-      
       <div class="add-member-row">
         <input type="text" placeholder="Name">
         <input type="text" placeholder="Email">
-        <select>
-          <option>Board Member</option>
-          <option>Committee Member</option>
-          <option>Volunteer Coordinator</option>
-          <option>Treasurer</option>
-          <option>Event Lead</option>
-          <option>Volunteer</option>
-        </select>
-        <button class="btn btn-secondary" onclick="addMember()">Add</button>
+        <select><option>Board Member</option><option>Committee Member</option><option>Volunteer Coordinator</option><option>Treasurer</option><option>Event Lead</option><option>Volunteer</option></select>
+        <button type="button" class="btn btn-secondary" onclick="addMember()">Add</button>
       </div>
-      
       <div class="btn-row">
-        <button class="btn btn-secondary" onclick="goToStep(2)">Back</button>
-        <button class="btn btn-primary" onclick="goToStep(4)">Continue →</button>
+        <button type="button" class="btn btn-secondary" onclick="goToStep(2)">Back</button>
+        <button type="button" class="btn btn-primary" onclick="goToStep(4)">Continue →</button>
       </div>
-      
-      <div class="skip-link">
-        <a href="#" onclick="goToStep(4)">Skip for now — I'll add team members later</a>
-      </div>
+      <div class="skip-link"><a href="javascript:goToStep(4)">Skip for now — I'll add team members later</a></div>
     </div>
 
-    <!-- Step 4: Review -->
     <div class="step" id="step-4">
       <h1>Review & Launch</h1>
       <p class="subtitle">Here's what we've set up. You can always change these settings later.</p>
-      
-      <div class="summary-section">
-        <h3>Organization</h3>
-        <div class="summary-card">
-          <div class="org-name">Riverside Community Foundation</div>
-          <div class="org-type">501(c)(3) Nonprofit</div>
-        </div>
-      </div>
-      
-      <div class="summary-section">
-        <h3>Event Types (7 selected)</h3>
-        <div class="summary-card">
-          <div class="event-tags">
-            <span>🎭 Annual Gala</span>
-            <span>🏌️ Golf Tournament</span>
-            <span>🎉 Community Festival</span>
-            <span>📋 Board Meeting</span>
-            <span>📊 Annual Meeting</span>
-            <span>📝 Grant Deadlines</span>
-            <span>📑 Annual Filing</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="summary-section">
-        <h3>Team Members (3)</h3>
-        <div class="summary-card">
-          <div class="summary-team">
-            <div class="summary-member"><div class="avatar">SJ</div><div><div class="name">Sarah Johnson</div><div class="email">Executive Director</div></div></div>
-            <div class="summary-member"><div class="avatar">MR</div><div><div class="name">Michael Rodriguez</div><div class="email">Board Chair</div></div></div>
-            <div class="summary-member"><div class="avatar">LP</div><div><div class="name">Lisa Park</div><div class="email">Volunteer Coordinator</div></div></div>
-          </div>
-        </div>
-      </div>
-      
+      <div class="summary-section"><h3>Organization</h3><div class="summary-card"><div class="org-name">Riverside Community Foundation</div><div class="org-type">501(c)(3) Nonprofit</div></div></div>
+      <div class="summary-section"><h3>Event Types (7 selected)</h3><div class="summary-card"><div class="event-tags"><span>🎭 Annual Gala</span><span>🏌️ Golf Tournament</span><span>🎉 Community Festival</span><span>📋 Board Meeting</span><span>📊 Annual Meeting</span><span>📝 Grant Deadlines</span><span>📑 Annual Filing</span></div></div></div>
+      <div class="summary-section"><h3>Team Members (3)</h3><div class="summary-card"><div class="summary-team"><div class="summary-member"><div class="avatar">SJ</div><div><div class="name">Sarah Johnson</div><div class="email">Executive Director</div></div></div><div class="summary-member"><div class="avatar">MR</div><div><div class="name">Michael Rodriguez</div><div class="email">Board Chair</div></div></div><div class="summary-member"><div class="avatar">LP</div><div><div class="name">Lisa Park</div><div class="email">Volunteer Coordinator</div></div></div></div></div></div>
       <div class="btn-row">
-        <button class="btn btn-secondary" onclick="goToStep(3)">Back</button>
-        <button class="btn btn-primary" onclick="goToStep(5)">🚀 Launch Steady</button>
+        <button type="button" class="btn btn-secondary" onclick="goToStep(3)">Back</button>
+        <button type="button" class="btn btn-primary" onclick="goToStep(5)">🚀 Launch Steady</button>
       </div>
     </div>
 
-    <!-- Step 5: Success -->
     <div class="step" id="step-5">
-      <div class="celebration">
-        <div class="celebration-icon">🎉</div>
-        <h1>Welcome to Steady!</h1>
-        <p class="subtitle">Your organization is ready to go. Let's plan your first event.</p>
-      </div>
-      
-      <div class="next-steps">
-        <h3>What happens next</h3>
-        <div class="next-step-item">
-          <div class="next-step-num">1</div>
-          <p><strong>Create your first event</strong> — Pick a date and we'll generate a smart milestone plan</p>
-        </div>
-        <div class="next-step-item">
-          <div class="next-step-num">2</div>
-          <p><strong>Assign team members</strong> — Assign owners to milestones and they'll get automatic reminders</p>
-        </div>
-        <div class="next-step-item">
-          <div class="next-step-num">3</div>
-          <p><strong>Track progress</strong> — See everything on your dashboard as your team completes tasks</p>
-        </div>
-      </div>
-      
-      <div class="btn-row" style="justify-content: center;">
-        <a href="create-event-prototype.html" class="btn btn-primary" style="text-decoration: none;">Create your first event →</a>
-      </div>
-      
-      <div class="skip-link">
-        <a href="ed-dashboard-prototype.html">Skip to dashboard — I'll create an event later</a>
-      </div>
+      <div class="celebration"><div class="celebration-icon">🎉</div><h1>Welcome to Steady!</h1><p class="subtitle">Your organization is ready to go. Let's plan your first event.</p></div>
+      <div class="next-steps"><h3>What happens next</h3><div class="next-step-item"><div class="next-step-num">1</div><p><strong>Create your first event</strong> — Pick a date and we'll generate a smart milestone plan</p></div><div class="next-step-item"><div class="next-step-num">2</div><p><strong>Assign team members</strong> — Assign owners to milestones and they'll get automatic reminders</p></div><div class="next-step-item"><div class="next-step-num">3</div><p><strong>Track progress</strong> — See everything on your dashboard as your team completes tasks</p></div></div>
+      <div class="btn-row" style="justify-content: center;"><a href="create-event-prototype.html" class="btn btn-primary">Create your first event →</a></div>
+      <div class="skip-link"><a href="ed-dashboard-prototype.html">Skip to dashboard — I'll create an event later</a></div>
     </div>
   </main>
 </div>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 function goToStep(step) {
-  // Hide all steps
-  document.querySelectorAll('.step').forEach(function(s) {
-    s.classList.remove('active');
-  });
-  // Show target step
+  var steps = document.querySelectorAll('.step');
+  for (var i = 0; i < steps.length; i++) {
+    steps[i].classList.remove('active');
+  }
   document.getElementById('step-' + step).classList.add('active');
   
-  // Update nav
   for (var i = 1; i <= 4; i++) {
     var nav = document.getElementById('nav-' + i);
     nav.classList.remove('active', 'completed');
@@ -364,9 +212,46 @@ function goToStep(step) {
       nav.classList.add('active');
     }
   }
-  
-  // Scroll to top
   window.scrollTo(0, 0);
 }
 
-function selectC
+function selectCard(el) {
+  var cards = document.querySelectorAll('.selection-card');
+  for (var i = 0; i < cards.length; i++) {
+    cards[i].classList.remove('selected');
+  }
+  el.classList.add('selected');
+}
+
+function togglePill(el) {
+  if (!el.classList.contains('add-custom')) {
+    el.classList.toggle('selected');
+  }
+}
+
+function addCustom() {
+  var name = prompt('Enter custom event type:');
+  if (name) {
+    var pill = document.createElement('div');
+    pill.className = 'event-pill selected';
+    pill.onclick = function() { togglePill(this); };
+    pill.textContent = name;
+    event.target.parentNode.insertBefore(pill, event.target);
+  }
+}
+
+function addMember() {
+  var inputs = document.querySelectorAll('.add-member-row input');
+  if (inputs[0].value && inputs[1].value) {
+    var initials = inputs[0].value.split(' ').map(function(n) { return n[0]; }).join('').toUpperCase();
+    var member = document.createElement('div');
+    member.className = 'team-member';
+    member.innerHTML = '<div class="avatar">' + initials + '</div><div class="info"><div class="name">' + inputs[0].value + '</div><div class="role">' + inputs[1].value + '</div></div>';
+    document.querySelector('.team-list').appendChild(member);
+    inputs[0].value = '';
+    inputs[1].value = '';
+  }
+}
+</script>
+</body>
+</html>
