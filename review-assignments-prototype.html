@@ -369,14 +369,23 @@
         </div>
 
         <div class="page-footer">
-          <button class="btn btn-secondary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back to Event</button>
+          <a href="event-detail-prototype.html" class="btn btn-secondary" style="text-decoration:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Back to Event</a>
           <div style="display: flex; gap: 12px;">
-            <button class="btn btn-secondary" onclick="alert('Auto-balance would redistribute unassigned tasks based on workload')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>Auto-balance Workload</button>
-            <button class="btn btn-primary" onclick="alert('Assignments saved!')">Save Changes</button>
+            <button class="btn btn-secondary" onclick="toast('Auto-balancing workload...')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>Auto-balance Workload</button>
+            <button class="btn btn-primary" onclick="toast('Assignments saved!')">Save Changes</button>
           </div>
         </div>
       </div>
     </main>
   </div>
+<script>
+function toast(msg) {
+  var t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:20px;right:20px;background:#1a1a1a;color:white;padding:12px 20px;border-radius:8px;font-size:13px;z-index:1000';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function() { t.remove(); }, 2000);
+}
+</script>
 </body>
 </html>

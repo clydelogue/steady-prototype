@@ -159,15 +159,15 @@
     <div class="logo"><div class="logo-icon">📊</div> Steady</div>
     <nav>
       <div class="nav-section">
-        <a class="nav-item">📋 Dashboard</a>
-        <a class="nav-item">📅 Events <span class="nav-badge">3</span></a>
-        <a class="nav-item">👥 Team</a>
+        <a class="nav-item" href="ed-dashboard-prototype.html">📋 Dashboard</a>
+        <a class="nav-item" href="ed-dashboard-prototype.html">📅 Events <span class="nav-badge">3</span></a>
+        <a class="nav-item" href="review-assignments-prototype.html">👥 Team</a>
       </div>
       <div class="nav-section">
         <div class="nav-title">This Event</div>
         <a class="nav-item active">📋 Overview</a>
         <a class="nav-item">✅ Milestones</a>
-        <a class="nav-item">👥 Team</a>
+        <a class="nav-item" href="review-assignments-prototype.html">👥 Team</a>
         <a class="nav-item">💬 Communications <span class="nav-badge">3</span></a>
         <a class="nav-item">📎 Files</a>
       </div>
@@ -309,8 +309,8 @@
 
 <script>
 function toggleCheck(el) { el.classList.toggle('done'); el.closest('.milestone').style.opacity = el.classList.contains('done') ? '0.5' : '1'; toast(el.classList.contains('done') ? 'Milestone completed!' : 'Milestone reopened'); }
-function openMs(name) { alert('Open milestone: ' + name); }
-function openMsg(subj) { event.currentTarget.classList.remove('unread'); alert('Open thread: ' + subj); }
+function openMs(name) { toast('Opening: ' + name); }
+function openMsg(subj) { event.currentTarget.classList.remove('unread'); toast('Opening thread: ' + subj); }
 function openCompose() { document.getElementById('compose').classList.add('open'); document.getElementById('compose').scrollIntoView({behavior:'smooth'}); }
 function closeCompose() { document.getElementById('compose').classList.remove('open'); }
 function sendMsg() { toast('Message sent via Gmail!'); closeCompose(); }
