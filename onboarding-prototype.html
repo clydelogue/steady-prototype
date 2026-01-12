@@ -157,9 +157,9 @@
       <h1>Who's on your team?</h1>
       <p class="subtitle">Add the people who help run your events. They'll get their own login and task reminders.</p>
       <div class="team-list">
-        <div class="team-member"><div class="avatar">SJ</div><div class="info"><div class="name">Sarah Johnson</div><div class="role">sarah@riverside.org</div></div><span class="badge">You (ED)</span></div>
-        <div class="team-member"><div class="avatar">MR</div><div class="info"><div class="name">Michael Rodriguez</div><div class="role">michael@riverside.org</div></div><span style="font-size: 12px; color: var(--muted);">Board Chair</span></div>
-        <div class="team-member"><div class="avatar">LP</div><div class="info"><div class="name">Lisa Park</div><div class="role">lisa@riverside.org</div></div><span style="font-size: 12px; color: var(--muted);">Volunteer Coordinator</span></div>
+        <div class="team-member"><div class="avatar">SJ</div><div class="info"><div class="name">Sarah Johnson</div><div class="role"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="95e6f4e7f4fdd5e7fce3f0e7e6fcf1f0bbfae7f2">[email&#160;protected]</a></div></div><span class="badge">You (ED)</span></div>
+        <div class="team-member"><div class="avatar">MR</div><div class="info"><div class="name">Michael Rodriguez</div><div class="role"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="6a070309020b0f062a18031c0f1819030e0f4405180d">[email&#160;protected]</a></div></div><span style="font-size: 12px; color: var(--muted);">Board Chair</span></div>
+        <div class="team-member"><div class="avatar">LP</div><div class="info"><div class="name">Lisa Park</div><div class="role"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="d7bbbea4b697a5bea1b2a5a4beb3b2f9b8a5b0">[email&#160;protected]</a></div></div><span style="font-size: 12px; color: var(--muted);">Volunteer Coordinator</span></div>
       </div>
       <div class="add-member-row">
         <input type="text" placeholder="Name">
@@ -195,7 +195,7 @@
   </main>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 function goToStep(step) {
   var steps = document.querySelectorAll('.step');
   for (var i = 0; i < steps.length; i++) {
@@ -243,15 +243,4 @@ function addCustom() {
 function addMember() {
   var inputs = document.querySelectorAll('.add-member-row input');
   if (inputs[0].value && inputs[1].value) {
-    var initials = inputs[0].value.split(' ').map(function(n) { return n[0]; }).join('').toUpperCase();
-    var member = document.createElement('div');
-    member.className = 'team-member';
-    member.innerHTML = '<div class="avatar">' + initials + '</div><div class="info"><div class="name">' + inputs[0].value + '</div><div class="role">' + inputs[1].value + '</div></div>';
-    document.querySelector('.team-list').appendChild(member);
-    inputs[0].value = '';
-    inputs[1].value = '';
-  }
-}
-</script>
-</body>
-</html>
+    var initials = inputs[0].value.split(' ').m
